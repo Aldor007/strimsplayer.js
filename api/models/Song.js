@@ -19,14 +19,19 @@ module.exports = {
     },
     strims_url: {
         type: 'string',
-        required: true
+        required: true,
+        unique: true
     
     },
-    yt_url: {
+    domain: {
         type: 'string',
         required: true
     },
-    yt_id: {
+    domain_url: {
+        type: 'string',
+        required: true
+    },
+    domain_id: {
         type: 'string',
         required: true
     },
@@ -40,7 +45,8 @@ module.exports = {
     
     },
     strim: {
-        model: 'Strim'
+        model: 'Strim',
+        required: true
     }
   }
 };

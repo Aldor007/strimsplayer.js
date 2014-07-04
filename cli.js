@@ -1,5 +1,32 @@
 var Crawler = require("crawler").Crawler;
 var http = require('http');
+var unirest = require('unirest');
+var moment = require('moment');
+
+
+var DataHelper = function(indate) {
+        // indate = indate.replace("dzisiaj", (date.today()).strftime('%d %m %Y '));
+        // indate = indate.replace("wczoraj", (date.today()-timedelta(1)).strftime(('%d %m %Y')));
+
+
+        indate = indate.replace('stycznia', '01');
+        indate = indate.replace('lutego', '02');
+        indate = indate.replace('marca', '03');
+        indate = indate.replace('kwietnia', '04');
+        indate = indate.replace('maja',  '05');
+        indate = indate.replace('czerwca', '06');
+        indate = indate.replace('lipca', '07');
+        indate = indate.replace('sierpnia', '08');
+        indate = indate.replace('września', '09');
+        indate = indate.replace('pażdziernika', '10');
+        indate = indate.replace('listopda', '11');
+        indate = indate.replace('grudnia', '12');
+        indate = indate.replace(' ', '-');
+        indate = indate.replace(' ', '-');
+
+        indate = moment(indate, 'm-D-YYYY HH:mm:ss');
+        return indate;
+};
 
 var options = {
     host: 'localhost',
@@ -15,21 +42,25 @@ var options = {
 var test = function (data, $ ) {
     var html = $(data).html();
     var jquery = $(html);
-    var upvotes = jquery.find('a.like>span.content_vote_count').text();
-    var downvotest =   jquery.find('a.dislike>span.content_vote_count').text();
-    var date = new Date(jquery.find('ul.content_info>li>span>a>span').attr('title'));
-    var strims_url = jquery.find('ul.content_info>li>span>a').attr('href');
-    var domain = jquery.find('h2>span>a').text();
-    var user =     jquery.find('.link').text();
-    var yt_url = jquery.find('h2 a.content_title').attr('href');
-    var title = jquery.find('h2 a.content_title').text();
+    var song = {};
+    song.upvotes = jquery.find('a.like>span.content_vote_count').text();
+    song.downvotes =   jquery.find('a.dislike>span.content_vote_count').text();
+    song.date = DataHelper(jquery.find('ul.content_info>li>span>a>span').attr('title'));
+    song.strims_url = jquery.find('ul.content_info>li>span>a').attr('href');
+    song.domain = jquery.find('h2>span>a').text();
+    song.user =     jquery.find('.link').text();
+    song.domain_url = jquery.find('h2 a.content_title').attr('href');
+    song.title = jquery.find('h2 a.content_title').text();
+    song.strim = (song.strims_url.split('/')[2]).toLowerCase();
 
-    var save_options = {
+    unirest.post('http://localhost:1337/song/add')
+    .headers({ 'Accept': 'application/json' })
+    .send( { song:JSON.stringify(song)})
+    .end( function(res) {
+        console.info("Response " + JSON.stringify(res.body));
+    });
 
-    
-    };
-    // console.log($(data).find('a.user_name span').val());
-    process.exit(0);
+
 
 };
 
