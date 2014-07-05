@@ -1,0 +1,17 @@
+<div class="pagination">
+    <span class="step-links">
+        {% if songs.has_previous %}
+            <a href="?page={{ songs.previous_page_number }}">poprzednia</a>
+        {% endif %}
+
+        <span class="current">
+            Strona {{ songs.number }} z {{ songs.paginator.num_pages }}
+        </span>
+
+        {% if songs.has_next %}
+            <a href="?page={{ songs.next_page_number }}">następna</a>
+        {% endif %}
+    </span>
+</div>
+    
+

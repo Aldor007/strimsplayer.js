@@ -30,7 +30,7 @@ module.exports.routes = {
 
     '/*': function(req, res, next) {sails.log.verbose(req.method, req.url); next();},
   '/': {
-    view: 'homepage'
+    view: 'index'
   },
   'get /s/:name': {
     controller: 'strim',

@@ -14,6 +14,9 @@ module.exports = function(grunt) {
 
 	grunt.config.set('less', {
 		dev: {
+        options: {
+          paths: ['bower_components/*/less']
+        },
 			files: [{
 				expand: true,
 				cwd: 'assets/styles/',
