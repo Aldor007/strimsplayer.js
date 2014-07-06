@@ -55,7 +55,6 @@
     "Content-Type": "application/json; charset=utf-8"
     }
     }).success(function(response){
-        console.log(response);
         $scope.strims = response;
     }).error(function(error){
         $scope.error = error;
@@ -76,7 +75,86 @@
     $event.stopPropagation();
     $scope.status.isopen = !$scope.status.isopen;
     };
+};
+    function PlayerCtrl($scope, $http) {
+        var that = $scope;
+        $scope.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+        $scope.player.on('next', function(e){
+            $scope.activeIndex++;;
+          $scope.player.playList($scope.activeIndex);
+          $scope.updateActiveVideo();
+          $scope.player.play();
+      });
+      $scope.player.on('prev', function(e){
+          $scope.activeIndex--;;
+            $scope.changeEvent++;
+          $scope.player.playList($scope.activeIndex);
+          $scope.updateActiveVideo();
+          $scopet.player.play();
+      });
+      $scope.player.on('lastVideoEnded', function(e){
+        console.log('Last video has finished');
+      });
+        $scope.activeIndex = 0;
+        $http({
+            url: "/song/last",
+            dataType: "json",
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+        }).success(function(response){
+            $scope.songs = response;
+            var parseToPlay = function(data) {
+                var result = []
+                for (var i = 0, len = data.length; i<len; i++) {
+                    result.push({
+                        type: 'video/youtube',
+                        src: data[i].domain_url,
+                        techOrder: ['youtube'],
+                        title: data[i].title
+                    });
+                }
+                return result;
+            };
+            $scope.player.playList(parseToPlay(response));
+
+
+    }).error(function(error){
+        $scope.error = error;
+        console.log('error' + error);
+    });
+    $scope.nextOrPrev  = function($event) {
+        var clicked = $event.target;
+        $scope.player[clicked.id]();
+        $scope.updateActiveVideo();
+        
+     };
+     $scope.select = function(id, $event){
+
+      if (id != $scope.activeIndex) {
+        $scope.player.playList(id);
+        $scope.updateActiveVideo();
     }
+        $scope.player.play();
+    };
+    
+    $scope.updateActiveVideo = function() {
+         // $scope.$apply(function () {
+        $scope.activeIndex = $scope.player.pl.current;
+        try {
+         if (!$scope.$$phase) {
+            $scope.$apply($scope.activeIndex);
+        }
+            } catch (err) {
+         console.log(err);
+         }
+         // });
+    
+    };
+    };
+    
+
     </script>
 
 </div> 
@@ -89,16 +167,22 @@
     <header>
         <h1>VideoJS Playlists Demo</h1>
     </header>
-    <div class="video-holder centered">
+    <div class="video-holder centered" ng-controller="PlayerCtrl">
         <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
   </video>
         <div class="playlist-components">
             <div class="playlist">
-                <ul></ul>
+                <ul>
+            <li ng-repeat="song in songs" ng-class="{'active':$index   == activeIndex}"  ng-click="select($index)" >
+            <a href="#" data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" >[[song.title]] </a>
+             </li>
+                </ul>
             </div>
             <div class="button-holder">
-                <a id="prev" alt="Previous video" src="img/Previous.png" href="">Prev</a>
-                <a id="next" alt="Next video" src="img/Next.png" href="#">NEXT</a>
+                <a id="prev" alt="Previous video" src="img/Previous.png" ng-click="nextOrPrev($event)">Prev</a>
+               <!-- <a id="shufle" ng-click="shufle()">Prev</a>
+               <a id="shufle" ng-click="shufle()">AutoPlayv</a> -->
+                <a id="next" alt="Next video" src="img/Next.png" ng-click="nextOrPrev($event)">NEXT</a>
             </div>
         </div>
     </div>
@@ -113,135 +197,12 @@
     </footer>
 
 <!-- Use Assetic -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Placed at the end of the document so the pages load faster -->
 
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 {% block javascript %}{% endblock %}
 
-<script>
-    var licznkik = 0;
-(function($){
-  var videos = [
-    {
-    techOrder: ['youtube'], 
-    src: 'https://www.youtube.com/watch?v=YVr_rfqHax0',
-      title : 'Video 1'
-    },
-    {
-    techOrder: ['youtube'], 
-    src: 'http://www.youtube.com/watch?v=xjS6SftYQaQ',
-      title : 'Video 2'
-    },
-    {
-    techOrder: ['youtube'], 
-    src: 'https://www.youtube.com/watch?v=glIOjmKsGiA',
-      title : 'Video 3'
-    }
-  ];
-
-
-  var demoModule = {
-    init : function(){
-      this.els = {};
-      this.cacheElements();
-      this.initVideo();
-      this.createListOfVideos();;
-      this.bindEvents();
-      this.overwriteConsole();
-    },
-    overwriteConsole : function(){
-      console._log = console.log;
-      console.log = this.log;
-    },
-    log : function(string){
-      demoModule.els.log.append('<p>' + string + '</p>');
-      console._log(string);
-    },
-    cacheElements : function(){
-      this.els.$playlist = $('div.playlist > ul');
-      this.els.$next = $('#next');
-      this.els.$prev = $('#prev');
-      this.els.log = $('div.panels > pre');
-    },
-    initVideo : function(){
-        this.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 
-                    'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
-        this.player.playList(videos);
-
-    },
-    createListOfVideos : function(){
-      var html = '';
-      for (var i = 0, len = this.player.pl.videos.length; i < len; i++){
-        html += '<li data-videoplaylist="'+ i +'">'+
-                  '<span class="number">' + (i + 1) + '</span>'+
-                  '<span class="title">'+ videos[i].title +'</span>' +
-                '</li>';
-      }
-      this.els.$playlist.empty().html(html);
-      this.updateActiveVideo();
-    },
-    updateActiveVideo : function(){
-      var activeIndex = this.player.pl.current;
-
-      this.els.$playlist.find('li').removeClass('active');
-      this.els.$playlist.find('li[data-videoplaylist="' + activeIndex +'"]').addClass('active');
-    },
-    bindEvents : function(){
-      var self = this;
-      this.els.$playlist.find('li').on('click', $.proxy(this.selectVideo,this));
-      this.els.$next.on('click', $.proxy(this.nextOrPrev,this));
-      this.els.$prev.on('click', $.proxy(this.nextOrPrev,this));
-      this.player.on('next', function(e){
-        console.log('Next video');
-        self.updateActiveVideo.apply(self);
-      });
-      this.player.on('prev', function(e){
-        console.log('Previous video');
-        self.updateActiveVideo.apply(self);
-      });
-      this.player.on('lastVideoEnded', function(e){
-        console.log('Last video has finished');
-      });
-    },
-    nextOrPrev : function(e){
-        var clicked = $(e.target);
-              this.player[clicked.attr('id')]();
-
-      console.log("----------------------");
-      // var tmp = licznkik%3;
-      // if (tmp==2) {
-      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
-      // }
-      // else if (tmp==1) {
-      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
-
-      // }
-      // else if (tmp==0) {
-      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
-
-      // }
-      // licznkik++;
-      // this.player.options['autoplay'] = true;
-      // this.player.play();
-
-    },
-    selectVideo : function(e){
-      var clicked = e.target.nodeName === 'LI' ? $(e.target) : $(e.target).closest('li');
-
-      if (!clicked.hasClass('active')){
-        console.log('Selecting video');
-        var videoIndex = clicked.data('videoplaylist');
-        this.player.playList(videoIndex);
-        this.updateActiveVideo();
-      }
-    }
-  };
-
-  demoModule.init();
-})(jQuery);
-</script>
 </body>
 
 </html>

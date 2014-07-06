@@ -52,6 +52,7 @@ function playList(options,arg){
           player.pl.videos.push(videos[i]);
     }
     else {
+        console.log(JSON.stringify(videos));
         throw new Error('unuported');
         }
     }

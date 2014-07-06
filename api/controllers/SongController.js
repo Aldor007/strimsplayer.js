@@ -35,6 +35,16 @@ module.exports = {
         
         });
         
+    },
+    last: function(req, res) {
+        Song.find().exec(function (err, songs) {
+            if (err) {
+                return res.send(500);
+            } else {
+                res.json(songs);
+            }
+    
+        });
     }
 };
 
