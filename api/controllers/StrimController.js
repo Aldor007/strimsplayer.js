@@ -7,17 +7,17 @@
 
 module.exports = {
     get: function (req, res) {
-        var name = req.query.name;
+        var name = req.param('name').toLowerCase();
         if (!name) {
             res.notFound();
             return;
         }
-        Strim.findOneByName(name, function(err, strim) {
+        Strim.findOneBySlug(name, function(err, strim) {
             
             if (strim === undefined) return res.notFound();
             if (err) return next(err);
 
-            res.json(strim);
+            res.view( {strim: strim});
         
         
         });

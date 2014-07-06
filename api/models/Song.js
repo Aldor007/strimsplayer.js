@@ -17,6 +17,10 @@ module.exports = {
         required: true
 
     },
+    user: {
+        type: 'string',
+        required: true,
+    },
     strims_url: {
         type: 'string',
         required: true,

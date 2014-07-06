@@ -48,9 +48,9 @@ module.exports.routes = {
           controller: 'strim',
           action: 'list'
     },
-  'get /song/last':{
+  'get /song/list/:strim':{
           controller: 'song',
-          action: 'last'
+          action: 'list'
     },
 
   // Custom routes here...

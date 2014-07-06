@@ -36,15 +36,30 @@ module.exports = {
         });
         
     },
-    last: function(req, res) {
-        Song.find().exec(function (err, songs) {
-            if (err) {
-                return res.send(500);
-            } else {
-                res.json(songs);
-            }
-    
-        });
+    list: function(req, res) {
+        var reqStrim = req.param('strim');
+        console.log(reqStrim);
+        if (reqStrim == undefined) {
+            Song.find().exec(function (err, songs) {
+                if (err) {
+                    return res.send(500);
+                } else {
+                    res.json(songs);
+                }
+        
+            });
+        } else {
+            Song.find().where( { strim: reqStrim}).exec(function (err, songs) {
+                if (err) {
+                    return res.send(500);
+                } else {
+                    res.json(songs);
+                }
+        
+            });
+        
+        
+        }
     }
 };
 
