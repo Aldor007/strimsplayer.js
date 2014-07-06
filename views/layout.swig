@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!--STYLES-->
 <link rel="stylesheet" href="/styles/importer.css">
+<link rel="stylesheet" href="/styles/main.css">
 <link rel="stylesheet" href="/styles/video-js.css">
 <!--STYLES END-->
 <!--SCRIPTS-->
@@ -85,13 +86,12 @@
 
     {% block content %}{% endblock %}
     <div class="row">
-        <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
-
-  </video>
     <header>
         <h1>VideoJS Playlists Demo</h1>
     </header>
     <div class="video-holder centered">
+        <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
+  </video>
         <div class="playlist-components">
             <div class="playlist">
                 <ul></ul>
@@ -147,8 +147,8 @@
       this.els = {};
       this.cacheElements();
       this.initVideo();
-      this.bindEvents();
       this.createListOfVideos();;
+      this.bindEvents();
       this.overwriteConsole();
     },
     overwriteConsole : function(){
@@ -206,23 +206,25 @@
       });
     },
     nextOrPrev : function(e){
-      var clicked = $(e.target);
+        var clicked = $(e.target);
+              this.player[clicked.attr('id')]();
+
       console.log("----------------------");
-      var tmp = licznkik%3;
-      if (tmp==2) {
-          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
-      }
-      else if (tmp==1) {
-          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
+      // var tmp = licznkik%3;
+      // if (tmp==2) {
+      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
+      // }
+      // else if (tmp==1) {
+      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
 
-      }
-      else if (tmp==0) {
-          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
+      // }
+      // else if (tmp==0) {
+      //     this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
 
-      }
-      licznkik++;
-      this.player.options['autoplay'] = true;
-      this.player.play();
+      // }
+      // licznkik++;
+      // this.player.options['autoplay'] = true;
+      // this.player.play();
 
     },
     selectVideo : function(e){
