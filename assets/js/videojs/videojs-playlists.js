@@ -39,23 +39,21 @@ function playList(options,arg){
     player.pl._addVideos(videos);
   };
 
-  player.pl._updatePoster = function(posterURL) {
-    player.poster(posterURL);
-    player.removeChild(player.posterImage);
-    player.posterImage = player.addChild("posterImage");
-  };
 
   player.pl._addVideos = function(videos){
     for (var i = 0, length = videos.length; i < length; i++){
-      var aux = [];
-      for (var j = 0, len = videos[i].src.length; j < len; j++){
-        aux.push({
-          type : player.pl._guessVideoType(videos[i].src[j], videos[i]),
-          src : videos[i].src[j]
-        });
-      }
-      videos[i].src = aux;
-      player.pl.videos.push(videos[i]);
+
+    if (typeof videos[i].src === 'string') {
+        
+          videos[i].src = {
+              type : player.pl._guessVideoType(null, videos[i]),
+              src : videos[i].src
+          };
+          player.pl.videos.push(videos[i]);
+    }
+    else {
+        throw new Error('unuported');
+        }
     }
   };
 
@@ -99,7 +97,6 @@ function playList(options,arg){
 
   player.pl._setVideoSource = function(src, poster) {
     player.src(src);
-    player.pl._updatePoster(poster);
   };
 
   player.pl._resumeVideo = function(){

@@ -23,6 +23,6 @@ app.factory('sailsSocket', function(sailsSocketFactory, $log) {
   //    sailsSocket.get('/foo', {}, function(res) { ... });
   //  });
 
-  $log.debug('Connecting to Sails.js...');
-  return sailsSocket.connect();
+  // $log.debug('Connecting to Sails.js...');
+  // return sailsSocket.connect();
 });

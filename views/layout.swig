@@ -20,7 +20,6 @@
 <script src="/js/controllers/todoCtrl.js"></script>
 <script src="/js/services/sailsSocket.js"></script>
 <script src="/js/ui-bootstrap.min.js"></script>
-<script src="/js/videojs-playlists.js"></script>
 <script src="/js/videojs/video.dev.js"></script>
 <script src="/js/videojs/videojs-playlists.js"></script>
 <script src="/js/videojs/youtube.js"></script>
@@ -86,22 +85,20 @@
 
     {% block content %}{% endblock %}
     <div class="row">
-      <a href="https://github.com/Belelros/videojs-playLists"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
+
+  </video>
     <header>
         <h1>VideoJS Playlists Demo</h1>
     </header>
     <div class="video-holder centered">
-        <video id="video" class="video-js vjs-default-skin"
-               controls preload="auto" width="640" height="264"
-               data-setup='{}'>
-        </video>
         <div class="playlist-components">
             <div class="playlist">
                 <ul></ul>
             </div>
             <div class="button-holder">
-                <img id="prev" alt="Previous video" src="img/Previous.png">
-                <img id="next" alt="Next video" src="img/Next.png">
+                <a id="prev" alt="Previous video" src="img/Previous.png" href="">Prev</a>
+                <a id="next" alt="Next video" src="img/Next.png" href="#">NEXT</a>
             </div>
         </div>
     </div>
@@ -115,8 +112,6 @@
       </div>
     </footer>
 
-  <video id="vid1" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
-  </video>
 <!-- Use Assetic -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Placed at the end of the document so the pages load faster -->
@@ -126,19 +121,22 @@
 {% block javascript %}{% endblock %}
 
 <script>
+    var licznkik = 0;
 (function($){
   var videos = [
     {
     techOrder: ['youtube'], 
-    src: 'http://www.youtube.com/watch?v=xjS6SftYQaQ',
+    src: 'https://www.youtube.com/watch?v=YVr_rfqHax0',
       title : 'Video 1'
     },
     {
+    techOrder: ['youtube'], 
     src: 'http://www.youtube.com/watch?v=xjS6SftYQaQ',
       title : 'Video 2'
     },
     {
-    src: 'http://www.youtube.com/watch?v=xjS6SftYQaQ',
+    techOrder: ['youtube'], 
+    src: 'https://www.youtube.com/watch?v=glIOjmKsGiA',
       title : 'Video 3'
     }
   ];
@@ -149,8 +147,8 @@
       this.els = {};
       this.cacheElements();
       this.initVideo();
-      this.createListOfVideos();
       this.bindEvents();
+      this.createListOfVideos();;
       this.overwriteConsole();
     },
     overwriteConsole : function(){
@@ -168,15 +166,16 @@
       this.els.log = $('div.panels > pre');
     },
     initVideo : function(){
-      this.player = videojs('video');
-      this.player.playList(videos);
+        this.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 
+                    'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
+        this.player.playList(videos);
+
     },
     createListOfVideos : function(){
       var html = '';
       for (var i = 0, len = this.player.pl.videos.length; i < len; i++){
         html += '<li data-videoplaylist="'+ i +'">'+
                   '<span class="number">' + (i + 1) + '</span>'+
-                  '<span class="poster"><img src="'+ videos[i].poster +'"></span>' +
                   '<span class="title">'+ videos[i].title +'</span>' +
                 '</li>';
       }
@@ -208,7 +207,23 @@
     },
     nextOrPrev : function(e){
       var clicked = $(e.target);
-      this.player[clicked.attr('id')]();
+      console.log("----------------------");
+      var tmp = licznkik%3;
+      if (tmp==2) {
+          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=M15ubp-V2zQ'});
+      }
+      else if (tmp==1) {
+          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
+
+      }
+      else if (tmp==0) {
+          this.player.src(  { type: "video/youtube", src: 'https://www.youtube.com/watch?v=x__qeWQaTtA'  });
+
+      }
+      licznkik++;
+      this.player.options['autoplay'] = true;
+      this.player.play();
+
     },
     selectVideo : function(e){
       var clicked = e.target.nodeName === 'LI' ? $(e.target) : $(e.target).closest('li');

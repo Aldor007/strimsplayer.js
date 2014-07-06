@@ -153,7 +153,7 @@
 
       var self = this;
       
-      player.ready(function(){
+      player.ready(function(cb){
         var controlBar = self.player_el_.querySelectorAll('.vjs-control-bar')[0];
         controlBar.appendChild(self.qualityButton);
 
@@ -167,6 +167,9 @@
         }
         
         player.trigger('loadstart');
+        if (cb) {
+            cb();
+        }
       });
       
       this.on('dispose', function() {
@@ -288,7 +291,10 @@
     return this.srcVal;
   };
 
-  videojs.Youtube.prototype.load = function(){};
+  videojs.Youtube.prototype.load = function(){
+    
+    // this.loadYoutube();
+  };
 
   videojs.Youtube.prototype.play = function(){
     if (this.videoId != null) {
@@ -360,7 +366,9 @@
   videojs.Youtube.prototype.supportsFullScreen = function(){ return true; };
 
   // YouTube is supported on all platforms
-  videojs.Youtube.isSupported = function(){ return true; };
+  videojs.Youtube.isSupported = function(){ 
+      
+      return true; };
 
   // You can use video/youtube as a media in your HTML5 video to specify the source
   videojs.Youtube.canPlaySource = function(srcObj){

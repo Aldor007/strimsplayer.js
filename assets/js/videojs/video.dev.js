@@ -3431,7 +3431,6 @@ vjs.Player.prototype.loadTech = function(techName, source){
 
   // Initialize tech instance
   this.tech = new window['videojs'][techName](this, techOptions);
-
   this.tech.ready(techReady);
 };
 
@@ -4248,7 +4247,6 @@ vjs.Player.prototype.src = function(source){
   if (source === undefined) {
     return this.techGet('src');
   }
-
   // Case: Array of source objects to choose from and pick the best to play
   if (source instanceof Array) {
 
@@ -4288,7 +4286,6 @@ vjs.Player.prototype.src = function(source){
   } else {
     // Cache for getting last set source
     this.cache_.src = source;
-
     if (!this.isReady_) {
       this.ready(function(){
         this.src(source);
