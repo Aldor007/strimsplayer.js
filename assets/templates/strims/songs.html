@@ -1,0 +1,42 @@
+
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="playlist-components">
+                    <div class="playlist">
+                            <ul>
+                                <li ng-repeat="song in songs" ng-class="{'active':$index   == activeIndex}"  ng-click="select($index)" >
+                                <a  data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" >[[song.title]] </a>
+                                </li>
+                            </ul>
+                    </div>
+                    <div class="button-holder row">
+                        <a id="prev" alt="Previous video" src="img/Previous.png" ng-click="nextOrPrev($event)">Prev</a>
+                       <!-- <a id="shufle" ng-click="shufle()">Prev</a>
+                       <a id="shufle" ng-click="shufle()">AutoPlayv</a> -->
+                        <a id="next" alt="Next video" src="img/Next.png" ng-click="nextOrPrev($event)">Next</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row songinfo">
+                <div class="row">
+                    <div class="content_voting">
+                        <div class="content_voting">
+                            <div class="content_vote_wrapper">
+                                <span class="content_vote_count">[[songData.upvotes]]</span>
+                            </div>
+                            <div class=content_vote_wrapper>
+                                <span class="content_vote_count">[[songData.downvotes]]</span>
+                            </div>
+                        </div>
+                    </div>
+                        <h3 class="songtitle">[[songData.title]]</h3>
+                </div>
+                <div class="row content_inner">
+                        <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.user]]</a></span>
+                        <span class="date">Dodane  [[songData.date| date:'dd MM yyyy o hh:mm']]</span> do strim
+                        <span class="strimname"><a href="http://strims.pl/s/[[songData.strim.slug]]"> [[songData.strim.name]]</a>.</span>
+                        <span class="strimlink"><a href="http://strims.pl[[songData.strims_url]]">Zobacz na strimse </a></span>
+                 </div>
+                    
+             </div>
+        </div>

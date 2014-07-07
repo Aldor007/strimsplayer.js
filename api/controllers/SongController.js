@@ -37,8 +37,8 @@ module.exports = {
         
     },
     list: function(req, res) {
-        var reqStrim = req.param('strim');
-        console.log(reqStrim);
+        var reqStrim = req.param('id');
+        console.log('SongController/list reqStrim=' + reqStrim);
         if (reqStrim == undefined) {
             Song.find().exec(function (err, songs) {
                 if (err) {
@@ -56,7 +56,7 @@ module.exports = {
                     res.json(songs);
                 }
         
-            });
+        });
         
         
         }

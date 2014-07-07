@@ -32,6 +32,9 @@ module.exports.routes = {
   '/': {
     view: 'index'
   },
+  '/!': {
+    view: 'index'
+  },
   'get /s/:name': {
     controller: 'strim',
     action: 'get'
@@ -44,11 +47,11 @@ module.exports.routes = {
        controller: 'user',
        action: 'passport_local'
       },
-  'get /stims/list':{
+  'get /stimss/list':{
           controller: 'strim',
           action: 'list'
     },
-  'get /song/list/:strim':{
+  'get /songs/list/:strimid':{
           controller: 'song',
           action: 'list'
     },
