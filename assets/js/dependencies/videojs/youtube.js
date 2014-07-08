@@ -390,7 +390,15 @@
         onReady: function(e) { e.target.vjsTech.onReady(); },
         onStateChange: function(e) { e.target.vjsTech.onStateChange(e.data); },
         onPlaybackQualityChange: function(e){ e.target.vjsTech.onPlaybackQualityChange(e.data); },
-        onError: function(e){ e.target.vjsTech.onError(e.data); }
+        onError: function(e){ 
+            // console.log(JSON.stringify(e));
+            e.target.vjsTech.onError(function (e) {
+                    var obj = {};
+                    obj.message = JSON.stringify(e);
+                    return obj;
+            }); 
+        
+        }
       }
     });
 
@@ -644,6 +652,7 @@
   };
 
   videojs.Youtube.prototype.onError = function(error){
+      // console.log("onError " + JSON.stringify(error));
     this.player_.error = error;
     this.player_.trigger('error');
     

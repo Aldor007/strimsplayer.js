@@ -47,13 +47,20 @@ module.exports.routes = {
        controller: 'user',
        action: 'passport_local'
       },
-  'get /stimss/list':{
+  'get /strims/list':{
           controller: 'strim',
           action: 'list'
     },
   'get /songs/list/:strimid':{
           controller: 'song',
           action: 'list'
+    },
+  'get /dodaj/strim': {
+          view: 'create'
+    },
+  'post /strim/add': {
+          controller: 'strim',
+          action: 'add'
     },
 
   // Custom routes here...

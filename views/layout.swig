@@ -17,7 +17,7 @@
 
 </head>
 
-<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" ng-controller="RootCtrl">
     <!-- Navbar
     ================================================== -->
    <header class="navbar navbar-default" ng-controller="DropdownCtrl" >
@@ -41,14 +41,13 @@
                         <a role="button" class="dropdown-toggle">
                             Strims <b class="caret"></b>
                         </a>
-                        <
                         <ul class="dropdown-menu" roles="menu">
                             <li ng-repeat="choice in strims">
-                                    <a href="!#/s/[[choice.slug]]">[[ choice.name ]] </a>
+                                    <a href="/!#/s/[[choice.slug]]">[[ choice.name ]] </a>
                               </li>
                         </ul>
                     </li>
-                    <li><a href="#getting_started">Getting started</a></li>
+                    <li><a href="/dodaj/strim">Dodaj strim</a></li>
                 </ul>
             </nav>
             <nav class="visible-xs" collapse="!isCollapsed">
@@ -61,54 +60,18 @@
     </div>
 </header>
 <div class="header-placeholder"></div>
-   <script>function DropdownCtrl($scope, $http) {
-    $http({
-    url: "/api/strims/list",
-    dataType: "json",
-    method: "GET",
-    headers: {
-    "Content-Type": "application/json; charset=utf-8"
-    }
-    }).success(function(response){
-        $scope.strims = response;
-    }).error(function(error){
-        $scope.error = error;
-        console.log('error' + error);
-    });
-
-
-    $scope.status = {
-        isopen: false
-    };
-
-    $scope.toggled = function(open) {
-        console.log('Dropdown is now: ', open);
-    };
-
-    $scope.toggleDropdown = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.status.isopen = !$scope.status.isopen;
-    };
-};
-
-    </script>
-
 </div> 
     
 
 
-{% block content %}{% endblock %}
-<div class="container page-header" ng-controller="PlayerCtrl">
-    <div ng-repeat="alert in alerts" ng-show="showInfo" class="row">
+    <div ng-repeat="alert in alerts" ng-show="showInfo" class="container">
         <alert type="[[alert.type]]" close="closeAlert($index)">[[alert.msg]]</alert>
     </div>
+{% block content %}
+<div class="container page-header" ng-controller="PlayerCtrl">
     <div class="container page-header video-holder" >
         <div class="col-lg-7">
             <div class="video-holder"> 
-                <header>
-                    <h1>[[strimName]]</h1>
-                </header>
                 <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
                 </video>
             </div>
@@ -116,8 +79,9 @@
 
         <ng-view>
         </ng-view>
+    </div>
 </div>
-</div>
+{% endblock %}
     <!-- Footer
     ================================================== -->
     <footer class="footer">
@@ -133,7 +97,7 @@
 <script src="/js/dependencies/angular/angular.min.js"></script>
 <script src="/js/dependencies/angular/zangular-route.min.js"></script>
 <script src="/js/dependencies/ui-bootstrap.min.js"></script>
-<script src="/js/dependencies/videojs/video.js"></script>
+<script src="/js/dependencies/videojs/video.dev.js"></script>
 <script src="/js/dependencies/videojs/videojs-playlists.js"></script>
 <script src="/js/dependencies/videojs/youtube.js"></script>
 <script src="/js/dependencies/zzui-bootstrap-tpls.js"></script>
