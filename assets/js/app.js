@@ -23,10 +23,10 @@ var saveApply = function ($scope, data) {
 
 
 
-
 var app = angular.module('app', [
         'ui.bootstrap', 
-        'ngRoute'
+        'ngRoute',
+        'infinite-scroll'
         ]).config(['$interpolateProvider', '$routeProvider', function($interpolateProvider, $routeProvider){
         $interpolateProvider.startSymbol('[[').endSymbol(']]');
         $routeProvider.
@@ -55,20 +55,43 @@ var app = angular.module('app', [
 app.service('strimsplayer', ['$http', '$cacheFactory',
     function ($http, $cacheFactory) {
         this.lruCache = $cacheFactory('lruCache', { capacity: 10 });
+        this.after = 0;
+        this.getCsrf = function(callback) {
+            $http.get('/csrfToken').success(function(response){
+                    callback(null, response._csrf);
+                }).error(function(error){
+                        console.error('strimsplayerApi error ' + error.message);
+                        callback(error, null);
+                        
+                });
+        
+        };
         this.callApi = function (options, callback) {
+            if (options.paginate) {
+                options.url += '?after=' + this.after;
+            }
             var httpOptions = {
                     url: options.url,
                     dataType: "json",
                     method: options.method || 'GET',
-                    headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                    },
                     cache: this.lruCache
             };
             if (options.data) {
                 httpOptions.data = options.data;
             }
-            $http(httpOptions).success(function(response){
+            var that = this;
+           var _callApi = function (tokenError, csrfToken) {
+               if (tokenError || csrfToken == null) {
+                   callback("Bład serwera", null);
+               }
+               httpOptions.headers =  {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "X-CSRF-Token": csrfToken
+                };
+               $http(httpOptions).success(function(response){
+                   if (options.paginate && response.length > 0) {
+                        that.after = response[response.length - 1].id;
+                   }
                     callback(null, response);
                 }).error(function(error){
                     if (error.message) {
@@ -89,6 +112,8 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
 
                 });
             };
+          this.getCsrf(_callApi);
+            };
         return this;
  }]);
 
@@ -103,9 +128,8 @@ app.factory('alertService',['$rootScope',
     alertService.setAlert = function(type, msg) {
         var obj = {'type': type, 'msg': msg};
          for (var i = 0, len = $rootScope.alerts.length; i < len; i++) {
-             console.log(" "  + $rootScope.alerts[i].msg + " == "+ obj.msg);
             if ($rootScope.alerts[i].msg == obj.msg) {
-               console.error("Alert in front");
+               console.error("This alert is in front!");
                return true;
              }
         }
@@ -205,10 +229,8 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
                 id = strimObj.id
                 $scope.strimName = strimObj.name;
                     $scope.saveApply($scope.strimName);
-                console.log("Strim obj " + strimObj.name);
-                console.log("Strim obj " + $scope.strimName);
             }
-            strimsplayer.callApi({url: StrimsPlayerApi.LIST_SONGS_IN_STRIM + id} , function(Songerr, songs){
+            strimsplayer.callApi({url: StrimsPlayerApi.LIST_SONGS_IN_STRIM + id, paginate: true} , function(Songerr, songs){
                 $scope.activeIndex = 0;
                 if (Songerr) {
                     alertService.setAlert('danger', 'Nie znany bład!');
@@ -258,25 +280,27 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
                 }
             });
         };
-        if ($routeParams.strim) {
-            strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
-                var strimIndex;
-                    for (var i = 0,len = strimsMenuData.length; i<len; i++) {
-                        if (strimsMenuData[i].slug == $routeParams.strim.toLowerCase()) {
-                            strimIndex = i;
-                            break;
+        $scope.getMoreSongs = function() {
+            if ($routeParams.strim) {
+                strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
+                    var strimIndex;
+                        for (var i = 0,len = strimsMenuData.length; i<len; i++) {
+                            if (strimsMenuData[i].slug == $routeParams.strim.toLowerCase()) {
+                                strimIndex = i;
+                                break;
+                            }
                         }
-                    }
-                    if ( err) {
-                        alertService.setAlert('danger', 'Nie zanleziono strima!');
-                    }
-                    $scope.findSongs(strimsMenuData[strimIndex]);
-                
-                
-            });
-        } else {
-            $scope.findSongs(null);
-        }
+                        if ( err) {
+                            alertService.setAlert('danger', 'Nie zanleziono strima!');
+                        }
+                        $scope.findSongs(strimsMenuData[strimIndex]);
+                    
+                    
+                });
+            } else {
+                $scope.findSongs(null);
+            }
+        };
 
 }]);
     
@@ -315,6 +339,9 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
 app.controller('RootCtrl', ['$rootScope', 'alertService',
     function ($rootScope, alertService) {
         $rootScope.closeAlert = alertService.closeAlert;    
+$rootScope.getMoreSongs = function() {
+    console.log("est");
+};
     
     
 }]);
@@ -341,15 +368,3 @@ app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
     
 }]);
 
-app.directive('ensureExistOnStrims', ['$http', function($http) {
-  return {
-      require: 'ngModel',
-      link: function(scope, ele, attrs, c) {
-                console.log("scope calledassa");
-            $scope.$watch(attrs.ngModel, function() {
-                console.log("scope called");
-
-            });
-          }
-    }
-}]);

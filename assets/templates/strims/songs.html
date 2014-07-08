@@ -5,8 +5,8 @@
         <div class="col-lg-5">
             <div class="row">
                 <div class="playlist-components">
-                    <div class="playlist">
-                            <ul>
+                    <div class="playlist"  >
+                            <ul infinite-scroll="getMoreSongs()" infinite-scroll-distance="3" >
                                 <li ng-repeat="song in songs" ng-class="{'active':$index   == activeIndex}"  ng-click="select($index)" >
                                 <a  data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" >[[song.title]] </a>
                                 </li>

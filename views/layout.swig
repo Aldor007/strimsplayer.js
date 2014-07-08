@@ -94,8 +94,10 @@
 <!-- Placed at the end of the document so the pages load faster -->
 
 <!--SCRIPTS-->
+<script src="/js/dependencies/aaajquery-1.11.1.min.js"></script>
 <script src="/js/dependencies/angular/angular.min.js"></script>
 <script src="/js/dependencies/angular/zangular-route.min.js"></script>
+<script src="/js/dependencies/angular/zzng-infinite-scroll.min.js"></script>
 <script src="/js/dependencies/ui-bootstrap.min.js"></script>
 <script src="/js/dependencies/videojs/video.dev.js"></script>
 <script src="/js/dependencies/videojs/videojs-playlists.js"></script>
