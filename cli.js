@@ -55,7 +55,7 @@ var test = function (data, $ ) {
     song.strim = (song.strims_url.split('/')[2]).toLowerCase();
     // unirest.get('http://localhost:1337/csrfToken').end(function (csrfTokenJSON) {
         // var csrfToken = csrfTokenJSON.body;
-        unirest.post('http://beta.strimsplayer.pl/api/songs/add')
+        unirest.post('http://localhost:1337/api/songs/add')
         .headers({ 'Accept': 'application/json'/*, 'X-CSRF-Token': csrfToken._csrf*/ })
         .send( { song:JSON.stringify(song)})
         .end( function(res) {
