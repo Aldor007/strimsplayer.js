@@ -12,12 +12,13 @@ module.exports = {
         if (song.domain == 'youtube.com' || song.domain == 'youtu.be') {
             var yt_id = url.parse(song.domain_url, true).query.v;
              song.domain_id = yt_id;
-             if (!song.domain_id) 
+             if (yt_id) 
                  song.domain_id = 'unknow';
             song.domain = 'youtube';
         }
         else {
             song.domain_id = 'unknow';
+            res.json(400, "not supported");
         }
         Strim.findOneBySlug(song.strim, function(err, strim) {
             

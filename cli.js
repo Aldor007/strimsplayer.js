@@ -89,7 +89,7 @@ var work = function (strims) {
     strims = JSON.parse(strims);
     console.log(strims);
     strims.forEach(function (strim) {
-        var url = 'http://strims.pl/s/' + strim.slug;
+        var url = 'http://strims.pl/s/' + strim.slug + '?filtr=video';
         console.log("url = "  + url);
         crawl.queue(url);
     });
