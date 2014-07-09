@@ -31,11 +31,12 @@ var DataHelper = function(indate) {
 var options = {
     host: 'localhost',
     port: 1337,
-    path: '/strim/list',
+    path: '/api/strims/list',
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
-        'User-Agent':'nodejs'
+        'User-Agent':'nodejs',
+        'X-Info': 'strimsplayer.pl'
     }
 
 };
@@ -52,13 +53,16 @@ var test = function (data, $ ) {
     song.domain_url = jquery.find('h2 a.content_title').attr('href');
     song.title = jquery.find('h2 a.content_title').text();
     song.strim = (song.strims_url.split('/')[2]).toLowerCase();
+    // unirest.get('http://localhost:1337/csrfToken').end(function (csrfTokenJSON) {
+        // var csrfToken = csrfTokenJSON.body;
+        unirest.post('http://localhost:1337/api/songs/add')
+        .headers({ 'Accept': 'application/json'/*, 'X-CSRF-Token': csrfToken._csrf*/ })
+        .send( { song:JSON.stringify(song)})
+        .end( function(res) {
+            console.info("Response " + JSON.stringify(res.body) + "res status " + res.status);
+        });
 
-    unirest.post('http://localhost:1337/song/add')
-    .headers({ 'Accept': 'application/json' })
-    .send( { song:JSON.stringify(song)})
-    .end( function(res) {
-        console.info("Response " + JSON.stringify(res.body));
-    });
+    // });
 
 
 

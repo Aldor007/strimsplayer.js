@@ -9,23 +9,19 @@ var request = require('request');
 module.exports = {
     get: function (req, res) {
         var name = req.param('name').toLowerCase();
-        if (!name) {
-            res.notFound();
-            return;
+        if (name) {
+            res.redirect('/!#s/'+ name);
+        } else {
+        
+            res.redirect('/');
         }
-        Strim.findOneBySlug(name, function(err, strim) {
-            
-            if (strim === undefined) return res.notFound();
-            if (err) return next(err);
 
-            res.view( {strim: strim});
-        
-        
-        });
     },
     list: function (req, res) {
+        console.log('StrimController/list called')
         Strim.find().exec(function (err, strims) {
             if (err) {
+                console.error('StrimController/list error=' + JSON.stringify(err));
                 return res.send(500);
             } else {
                 res.json(strims);

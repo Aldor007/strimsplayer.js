@@ -29,7 +29,8 @@
     "sails-disk": "~0.10.0",
     "swig": ">1.0.2",
     "unirest": "0.2.7",
-    "request": "~2.37.0"
+    "request": "~2.37.0",
+    "sails-mysql": "https://github.com/balderdashy/sails-mysql/archive/0.10.0-rc7.tar.gz"
 
   },
   "scripts": {

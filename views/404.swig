@@ -51,25 +51,20 @@
 
       <div class="main">
         <h1>
-          Something's fishy here.
+          404
         </h1>
         <h2>
-        	<% if (typeof error!== 'undefined') { %>
-          <%= error %>
-          <% } else { %>
-          The page you were trying to reach doesn't exist.
-          <% } %>
+            {% if (error!== 'undefined')  %}
+            {{ error }}
+            {%  else  %}
+            Nie znaleziono
+            {}% endif %}
         </h2>
         <p class="help">
           <a href="http://en.wikipedia.org/wiki/HTTP_404">Why</a> might this be happening?
         </p>
       </div>
 
-      <div class="logo">
-        <a href="http://sailsjs.org">
-          <img src="http://sailsjs.org/images/logo.png">
-        </a>
-      </div>
     </div>
 
   </body>

@@ -56,16 +56,15 @@
           Internal Server Error
         </h1>
         <h2>
-          Something isn't right here.
+          Woops Coś nie jest dobrze! 
         </h2>
         {% if error  %}
         <pre class="error"><code>
-            {% error %}
+            {{ error }}
         </code></pre>
         {% else  %}
-       <p class="error">
-          A team of highly trained sea bass is working on this as we speak.<br/>
-          If the problem persists, please <a href="mailto://you@your-domain.com">contact the system administrator</a> and inform them of the time that the error occured, and anything you might have done that may have caused the error.
+        <p class="error">
+        Przekaż informacje do <a href="http://strims.pl/u/Aldor">@Aldor</a>
         </p>
         {% endif %}
 

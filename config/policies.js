@@ -23,6 +23,9 @@ module.exports.policies = {
    'user': {
         '*': true,
 
+    },
+    'song': {
+        'add': 'isLocalhost',
     }
 	// Here's an example of mapping some policies to run before
   // a controller and its actions

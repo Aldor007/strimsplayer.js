@@ -10,6 +10,8 @@ StrimsPlayerApi.LIST_STRIMS = '/api/strims/list/';
 StrimsPlayerApi.LIST_SONGS_IN_STRIM = '/api/songs/list/';
 StrimsPlayerApi.ADD_STRIM = '/api/strims/add/';
 
+
+
 var saveApply = function ($scope, data) {
     try {
      if (!$scope.$$phase) {
@@ -30,14 +32,6 @@ var app = angular.module('app', [
         ]).config(['$interpolateProvider', '$routeProvider', function($interpolateProvider, $routeProvider){
         $interpolateProvider.startSymbol('[[').endSymbol(']]');
         $routeProvider.
-          when('/strim/add', {
-              templateUrl: 'templates/strims/add.html',
-              controller: 'StrimCtrl'
-            }).
-          when('/sala/', {
-                templateUrl: 'alatemplates/strims/songs.html',
-              controller: 'PlayerCtrl'
-            }).
           when('/s/:strim', {
                 templateUrl: 'templates/strims/songs.html',
               controller: 'PlayerCtrl'
@@ -89,10 +83,11 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
                     "X-CSRF-Token": csrfToken
                 };
                $http(httpOptions).success(function(response){
+                   var tmpAfter = that.after;
                    if (options.paginate && response.length > 0) {
                         that.after = response[response.length - 1].id;
                    }
-                    callback(null, response);
+                    callback(null, response, tmpAfter);
                 }).error(function(error){
                     if (error.message) {
                         console.error('strimsplayerApi error ' + error.message);
@@ -112,14 +107,23 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
 
                 });
             };
-          this.getCsrf(_callApi);
+          _callApi(null, 'token2');
+          // this.getCsrf(_callApi);
             };
         return this;
  }]);
 
 app.factory('alertService',['$rootScope',
         function($rootScope) {
-    var alertService = {};
+    var alertService = {
+        SERVER_ERROR: 'Nieznany błąd!',
+        UNKNOW_EROR: 'Coś poszło nie tak',
+        NO_SONGS: 'Brak muzyki!',
+        
+        
+    
+    };
+
 
     // create an array of alerts available globally
     $rootScope.alerts = [];
@@ -142,6 +146,10 @@ app.factory('alertService',['$rootScope',
         $rootScope.alerts.splice(index, 1);
         saveApply($rootScope, $rootScope.alerts);
         };
+    alertService.reset = function() {
+        $rootScope.alerts = [];
+        $rootScope.showInfo = false;
+    }
     
 
     return alertService;
@@ -153,6 +161,10 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
     function PlayerCtrl($scope, $http,  $routeParams,$cacheFactor, strimsplayer, alertService) {
         $scope.songs = [];
         $scope.songData = {};
+        $scope.currentStrim = {};
+        $scope.currentStrim.name = "aaaaaaaaaaaf - - ";
+        $scope.thereAreMoreSongs = true;
+
 
         $scope.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         $scope.player.on('next', function(e){
@@ -187,6 +199,7 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
           });
           $scope.player.on('lastVideoEnded', function(e){
             console.log('Last video has finished');
+            $scope.getMoreSongs();
         });
         $scope.nextOrPrev  = function($event) {
             var clicked = $event.target;
@@ -224,21 +237,21 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
         };
         $scope.findSongs = function(strimObj) {
             var id = '';
-            $scope.strimName = 'Wszystki strimy';
+            $scope.strimName = 'Wszystkie strimy';
             if (strimObj) {
                 id = strimObj.id
                 $scope.strimName = strimObj.name;
                     $scope.saveApply($scope.strimName);
             }
-            strimsplayer.callApi({url: StrimsPlayerApi.LIST_SONGS_IN_STRIM + id, paginate: true} , function(Songerr, songs){
+            if ($scope.thereAreMoreSongs)
+            strimsplayer.callApi({url: StrimsPlayerApi.LIST_SONGS_IN_STRIM + id, paginate: true, method: 'POST'} , function(Songerr, songs, after){
                 $scope.activeIndex = 0;
                 if (Songerr) {
-                    alertService.setAlert('danger', 'Nie znany bład!');
-                    console.log('erroryy' + Songerr);
+                    alertService.setAlert('danger', alertService.SERVER_ERROR);
+                    console.log('Error ' + Songerr);
                 }
-                else if (!songs || songs.length == 0) {
-                    alertService.setAlert('info', 'Brak muzyki!');
-                   console.log('wrong songs');
+                else if (!songs || songs.length == 0 && after == 0) {
+                    alertService.setAlert('info', alertService.NO_SONGS);
                 
                 }
                 else {
@@ -259,9 +272,17 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
                         return result;
                     };
                     $scope.songData = songs[0];
-                    $scope.songs = songs;
-                    $scope.player.playList(parseToPlay(songs));
-
+                    if (after == 0) {
+                        $scope.songs = songs;
+                        $scope.player.playList(parseToPlay(songs));
+                    } else {
+                        if (songs.length == 0 ) {
+                            $scope.thereAreMoreSongs = false;
+                        }
+                        for (var i = 0; i < songs.length; i++)
+                             $scope.songs.push(songs[i]);
+                        $scope.player.addVideosEx(parseToPlay(songs));
+                    }
 
                     $scope.saveApply($scope.songData);
                     $scope.saveApply($scope.strimName);
@@ -282,21 +303,34 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
         };
         $scope.getMoreSongs = function() {
             if ($routeParams.strim) {
-                strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
-                    var strimIndex;
-                        for (var i = 0,len = strimsMenuData.length; i<len; i++) {
-                            if (strimsMenuData[i].slug == $routeParams.strim.toLowerCase()) {
-                                strimIndex = i;
-                                break;
+                if( $routeParams.strim.toLowerCase() != $scope.currentStrim.name.toLowerCase()) {
+                    $scope.currentStrim.name = 'sdfkj sdfijsdifjsdkl jfsdkj fklsdjfk';
+                    strimsplayer.after = 0;
+                    $scope.thereAreMoreSongs = true;
+                    alertService.reset();
+                }
+                if($scope.currentStrim.id) {
+                    $scope.findSongs($scope.currentStrim)
+                }
+                else {
+                    strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
+                        var strimIndex = null, len = strimsMenuData.length;
+                            for (var i = 0;  i<len; i++) {
+                                if (strimsMenuData[i].slug == $routeParams.strim.toLowerCase()) {
+                                    strimIndex = i;
+
+                                    break;
+                                }
                             }
-                        }
-                        if ( err) {
-                            alertService.setAlert('danger', 'Nie zanleziono strima!');
-                        }
-                        $scope.findSongs(strimsMenuData[strimIndex]);
-                    
-                    
-                });
+                            if ( err || strimIndex == null)  {
+                                alertService.setAlert('danger', 'Nie zanleziono strima!');
+                            } else {
+                            $scope.currentStrim = strimsMenuData[strimIndex];
+                            $scope.findSongs(strimsMenuData[strimIndex]);
+                            }
+                        
+                    });
+                }
             } else {
                 $scope.findSongs(null);
             }
@@ -309,13 +343,11 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     function DropdownCtrl($scope, strimsplayer, alertService) {
     strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
         if (err) {
-            alertService.setAlert('danger', 'Coś poszło nie tak! :(');
-            console.log( 'Coś poszło nie tak! :(' + JSON.stringify(err));
+            alertService.setAlert('danger', alertService.UNKNOW_EROR);
             
         }
         if (!strimsMenuData || strimsMenuData.length == 0) {
-            alertService.setAlert('danger', 'Coś poszło nie tak! :(');
-            console.log( 'Coś poszło nie tak! :(');
+            alertService.setAlert('danger', alertService.UNKNOW_EROR);
         }
         $scope.strims = strimsMenuData;
         saveApply($scope, $scope.strims);
@@ -339,9 +371,6 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
 app.controller('RootCtrl', ['$rootScope', 'alertService',
     function ($rootScope, alertService) {
         $rootScope.closeAlert = alertService.closeAlert;    
-$rootScope.getMoreSongs = function() {
-    console.log("est");
-};
     
     
 }]);
@@ -350,7 +379,6 @@ app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
     function($scope, $http,  strimsplayer, alertService) {
         
         $scope.submitForm = function(isValid) {
-            console.log('ma 0 ' +JSON.stringify($scope.strimForm.name));
             if(isValid) {
                 strimsplayer.callApi( {
                         url: StrimsPlayerApi.ADD_STRIM, 

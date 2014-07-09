@@ -7,10 +7,12 @@
 var url = require('url');
 module.exports = {
     add: function(req, res) {
-        var song = JSON.parse(req.param('song'));
-        if (song.domain == 'youtube.com' || song.domain == 'you') {
+        var song = JSON.parse(req.param('song'))
+        console.log('SongController/add called with songs=' + req.param('song'));
+        if (song.domain == 'youtube.com' || song.domain == 'youtu.be') {
             var yt_id = url.parse(song.domain_url, true).query.v;
             song.domain_id = yt_id;
+            song.domain = 'youtube';
         }
         else {
             song.domain_id = 'unknow';
@@ -23,10 +25,9 @@ module.exports = {
             Song.create(song).exec(function (err1, saved) {
                 if(err1) {
                     console.error("Error: " + err1);
-                    res.status(500);
-                    return res.json(err1);
+                    return res.json(500,err1);
                 } else {
-                    console.log("Song added "  + saved);
+                    console.log("Song added "  + JSON.stringify(saved));
                     res.json('ok');
                 }
                 
@@ -38,9 +39,14 @@ module.exports = {
     },
     list: function(req, res) {
         var reqStrim = req.param('id');
-        console.log('SongController/list reqStrim=' + reqStrim);
+        var after = req.param('after');
+        var limit = req.param('limit') || 20;
+        console.log('SongController/list reqStrim=%s, after=%s, limit=%s',reqStrim, after, limit);
         if (reqStrim == undefined) {
-            Song.find().exec(function (err, songs) {
+            Song.find().where({
+                    id: {
+                    '>': after
+                    }}).limit(limit).exec(function (err, songs) {
                 if (err) {
                     return res.send(500);
                 } else {
@@ -49,7 +55,9 @@ module.exports = {
         
             });
         } else {
-            Song.find().where( { strim: reqStrim}).exec(function (err, songs) {
+            Song.find().where( { strim: reqStrim, id: {
+                '>': after
+            } }).limit(limit).exec(function (err, songs) {
                 if (err) {
                     return res.send(500);
                 } else {

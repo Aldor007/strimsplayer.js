@@ -140,4 +140,7 @@ videojs.Player.prototype.prev = function(){
   return this;
 };
 
+videojs.Player.prototype.addVideosEx = function(videos) {
+    this.pl._addVideos(videos);
+};
 videojs.plugin('playList', playList);
