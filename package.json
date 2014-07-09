@@ -30,7 +30,8 @@
     "swig": ">1.0.2",
     "unirest": "0.2.7",
     "request": "~2.37.0",
-    "sails-mysql": "https://github.com/balderdashy/sails-mysql/archive/0.10.0-rc7.tar.gz"
+    "sails-mysql": "https://github.com/balderdashy/sails-mysql/archive/0.10.0-rc7.tar.gz",
+    "crawler": "~0.2.6"
 
   },
   "scripts": {
