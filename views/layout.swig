@@ -30,7 +30,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand visible-xs" href="#">UI Bootstrap</a>
+                <a class="navbar-brand visible-xs" href="#">strimsplayer</a>
             </div>
             <nav class="hidden-xs">
                 <ul class="nav navbar-nav">
@@ -52,8 +52,9 @@
             </nav>
             <nav class="visible-xs" collapse="!isCollapsed">
                 <ul class="nav navbar-nav">
-                    <li><a href="#getting_started" ng-click="isCollapsed = !isCollapsed">Getting started</a></li>
-                    <li><a href="#directives_small" ng-click="isCollapsed = !isCollapsed">Directives</a></li>
+                            <li ng-repeat="choice in strims">
+                                    <a href="/!#/s/[[choice.slug]]" ng-click="isCollapsed = !isCollapsed">[[ choice.name ]] </a>
+                              </li>
                 </ul>
             </nav>
         </div>

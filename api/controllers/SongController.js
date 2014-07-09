@@ -10,8 +10,8 @@ module.exports = {
         var song = JSON.parse(req.param('song'))
         console.log('SongController/add called with songs=' + req.param('song'));
         if (song.domain == 'youtube.com' || song.domain == 'youtu.be') {
-            var yt_id = url.parse(song.domain_url, true).query.v;
-            song.domain_id = yt_id;
+            // var yt_id = url.parse(song.domain_url, true).query.v;
+            // song.domain_id = yt_id;
             song.domain = 'youtube';
         }
         else {
@@ -46,7 +46,10 @@ module.exports = {
             Song.find().where({
                     id: {
                     '>': after
-                    }}).limit(limit).exec(function (err, songs) {
+                    }})
+                    .limit(limit)
+                    .sort('id ASC')
+                    .exec(function (err, songs) {
                 if (err) {
                     return res.send(500);
                 } else {
