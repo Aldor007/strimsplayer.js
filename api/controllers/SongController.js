@@ -10,8 +10,10 @@ module.exports = {
         var song = JSON.parse(req.param('song'))
         console.log('SongController/add called with songs=' + req.param('song'));
         if (song.domain == 'youtube.com' || song.domain == 'youtu.be') {
-            // var yt_id = url.parse(song.domain_url, true).query.v;
-            // song.domain_id = yt_id;
+            var yt_id = url.parse(song.domain_url, true).query.v;
+             song.domain_id = yt_id;
+             if (!song.domain_id) 
+                 song.domain_id = 'unknow';
             song.domain = 'youtube';
         }
         else {
