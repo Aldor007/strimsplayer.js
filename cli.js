@@ -23,8 +23,8 @@ var DataHelper = function(indate) {
         indate = indate.replace('grudnia', '12');
         indate = indate.replace(' ', '-');
         indate = indate.replace(' ', '-');
-
-        indate = moment(indate, 'm-D-YYYY HH:mm:ss');
+        // indate = moment(indate, 'm-D-YYYY HH:mm:ss');
+        // console.log('date po ' + indate);
         return indate;
 };
 

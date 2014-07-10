@@ -35,10 +35,6 @@ module.exports = {
         type: 'string',
         required: true
     },
-    domain_id: {
-        type: 'string',
-        required: true
-    },
     upvotes: {
         type: 'integer',
         required: true
