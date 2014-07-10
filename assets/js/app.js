@@ -157,13 +157,14 @@ app.factory('alertService',['$rootScope',
 
 
 
-app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory','strimsplayer', 'alertService',
-    function PlayerCtrl($scope, $http,  $routeParams,$cacheFactor, strimsplayer, alertService) {
+app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory','strimsplayer', 'alertService',
+    function PlayerCtrl($scope,$window, $routeParams,$cacheFactor, strimsplayer, alertService) {
         $scope.songs = [];
         $scope.songData = {};
         $scope.currentStrim = {};
         $scope.currentStrim.name = "aaaaaaaaaaaf - - ";
         $scope.thereAreMoreSongs = true;
+        
 
 
         $scope.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
@@ -275,6 +276,8 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
                     if (after == 0) {
                         $scope.songs = songs;
                         $scope.player.playList(parseToPlay(songs));
+                        var width = document.getElementById('video').parentElement.offsetWidth;
+                        $scope.player.width(width).height(width * 9/16);
                     } else {
                         if (songs.length == 0 ) {
                             $scope.thereAreMoreSongs = false;
@@ -283,11 +286,12 @@ app.controller('PlayerCtrl', ['$scope', '$http', '$routeParams','$cacheFactory',
                              $scope.songs.push(songs[i]);
                         $scope.player.addVideosEx(parseToPlay(songs));
                     }
-
+                    
                     $scope.saveApply($scope.songData);
                     $scope.saveApply($scope.strimName);
                     $scope.saveApply($scope.songs);
                     $scope.saveApply($scope.player);
+                    
                     // try {
                     //  if (!$scope.$$phase) {
                     // $scope.$apply($scope.songData);
@@ -352,7 +356,7 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
         $scope.strims = strimsMenuData;
         saveApply($scope, $scope.strims);
     });
-
+    // $scope.isCollapsed = false;
     $scope.status = {
         isopen: false
     };

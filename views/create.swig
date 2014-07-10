@@ -4,7 +4,7 @@
 Dodaj strim | strimsplayer.pl
 {% endblock %}
 {% block content %}
-    <div class="container page-header" ng-controller="FormCtrl">
+    <div class="container" ng-controller="FormCtrl">
         <form name="strimForm" ng-submit="submitForm(strimForm.$valid)" role="form">
 
             <!-- NAME -->

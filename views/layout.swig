@@ -13,24 +13,22 @@
 <!--STYLES END-->
 {% block stylesheet %}{% endblock %}
   {% block extra_head %}{% endblock %}
-
-
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" ng-controller="RootCtrl">
     <!-- Navbar
     ================================================== -->
-   <header class="navbar navbar-default" ng-controller="DropdownCtrl" >
+   <header class="navbar navbar-default navbar-static-top" ng-controller="DropdownCtrl" >
     <div class="navbar-inner">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="isCollapsed = !isCollapsed">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-click="isCollapsed = !isCollapsed">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand visible-xs" href="#">strimsplayer</a>
+                <a class="navbar-brand visible-xs" href="/">strimsplayer</a>
             </div>
             <nav class="hidden-xs">
                 <ul class="nav navbar-nav">
@@ -51,29 +49,33 @@
                 </ul>
             </nav>
             <nav class="visible-xs" collapse="!isCollapsed">
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-collapse" collapse="!isCollapsed">
+                    <li class="dropdown" >
+                    <a role="button" class="dropdown-toggle">
+                            Strims <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" roles="menu">
                             <li ng-repeat="choice in strims">
-                                    <a href="/!#/s/[[choice.slug]]" ng-click="isCollapsed = !isCollapsed">[[ choice.name ]] </a>
+                                    <a href="/!#/s/[[choice.slug]]">[[ choice.name ]] </a>
                               </li>
+                        </ul>
+                    </li>
+                    <li> <a href="/dodaj/strim">Dodaj strim</a></li>
                 </ul>
             </nav>
         </div>
     </div>
 </header>
-<div class="header-placeholder"></div>
-</div> 
-    
-
 
     <div ng-repeat="alert in alerts" ng-show="showInfo" class="container">
         <alert type="[[alert.type]]" close="closeAlert($index)">[[alert.msg]]</alert>
     </div>
 {% block content %}
 <div class="container page-header" ng-controller="PlayerCtrl">
-    <div class="container page-header video-holder" >
-        <div class="col-lg-7">
+    <div class="container  video-holder" >
+        <div id="videoP" class="col-lg-7">
             <div class="video-holder"> 
-                <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"  data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
+                <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto"   data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
                 </video>
             </div>
         </div>
