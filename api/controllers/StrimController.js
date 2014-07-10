@@ -35,7 +35,7 @@ module.exports = {
         var saveStrim = function(strimName) { 
             Strim.create({name: strimName}).exec(function(err, strim){
                 if(err) {
-                    return res.json({status: 'error', message: JSON.stringify(err)}, 500);
+                    return res.json({status: 'error', message: 'Strim istnieje!'}, 500);
                 } else {
                     console.info('StrimyController/add 200 added strim  strimName=' + strimName);
                     res.json({status: 'ok', message: 'Strim ' + strim + 'dodany'},200);

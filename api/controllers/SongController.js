@@ -51,7 +51,7 @@ module.exports = {
                     '>': after
                     }})
                     .limit(limit)
-                    .sort('id ASC')
+                    .sort('date ASC')
                     .exec(function (err, songs) {
                 if (err) {
                     return res.send(500);
