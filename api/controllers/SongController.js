@@ -226,9 +226,11 @@ module.exports = {
         } else {
             Song.find().where( { strim: reqStrim, id: {
                 '>': after
-            } }).limit(limit).exec(function (err, songs) {
+            } }).limit(limit)
+            .sort('date ASC')
+            .exec(function (err, songs) {
                 if (err) {
-                    return res.send(500);
+                    return res.send(err.status);
                 } else {
                     res.json(songs);
                 }
