@@ -851,7 +851,11 @@ vjs.getData = function(el){
  * @private
  */
 vjs.hasData = function(el){
+try {
   var id = el[vjs.expando];
+} catch (err) {
+  return  !(null ||vjs.isEmpty(vjs.cache[id]));
+}
   return !(!id || vjs.isEmpty(vjs.cache[id]));
 };
 
@@ -5705,8 +5709,6 @@ vjs.ErrorDisplay.prototype.createEl = function(){
 
 vjs.ErrorDisplay.prototype.update = function(){
   if (this.player().error()) {
-      console.log("Error "+ this.player().error().message);
-      console.log("Error "+ JSON.stringify(this.player().error()));
     this.contentEl_.innerHTML = this.player().error().message;
   }
 };

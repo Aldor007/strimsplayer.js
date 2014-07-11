@@ -173,7 +173,8 @@
       });
       
       this.on('dispose', function() {
-        this.ytplayer.destroy();
+        if (this.ytplayer)
+            this.ytplayer.destroy();
 
         // Remove the poster
         this.player_el_.querySelectorAll('.vjs-poster')[0].style.backgroundImage = 'none';
@@ -184,6 +185,7 @@
         }
 
         // Get rid of the created DOM elements
+        if(this.qualityButton.parentNode)
         this.qualityButton.parentNode.removeChild(this.qualityButton);
         
         if (typeof this.player_.loadingSpinner != 'undefined') {

@@ -12,7 +12,11 @@
 <link rel="stylesheet" href="/styles/video-js.css">
 <!--STYLES END-->
 {% block stylesheet %}{% endblock %}
-  {% block extra_head %}{% endblock %}
+{% block extra_head %}{% endblock %}
+
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" ng-controller="RootCtrl">
@@ -75,7 +79,9 @@
     <div class="container  video-holder" >
         <div id="videoP" class="col-lg-7">
             <div class="video-holder"> 
-                <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto"   data-setup='{ "techOrder": ["youtube"], "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ" }'>
+                <video id="video" src="" class="video-js vjs-default-skin" controls preload="auto"   data-setup='{ "techOrder": [ "soundcloud", "youtube", "dailymotion", "vimeo"], 
+                 "soundcloudClientId": "6132bb5a168d685a9bb97f4efc5f8e18",
+                "src": "" }'>
                 </video>
             </div>
         </div>
@@ -102,8 +108,11 @@
 <script src="/js/dependencies/angular/zangular-route.min.js"></script>
 <script src="/js/dependencies/angular/zzng-infinite-scroll.min.js"></script>
 <script src="/js/dependencies/ui-bootstrap.min.js"></script>
-<script src="/js/dependencies/videojs/video.js"></script>
+<script src="/js/dependencies/videojs/uri.min.js"></script>
+<script src="/js/dependencies/videojs/video.dev.js"></script>
 <script src="/js/dependencies/videojs/videojs-playlists.js"></script>
+<script src="/js/dependencies/videojs/vjs.soundcloud.js"></script>
+<script src="/js/dependencies/videojs/vjs.vimeo.js"></script>
 <script src="/js/dependencies/videojs/youtube.js"></script>
 <script src="/js/dependencies/zzui-bootstrap-tpls.js"></script>
 <script src="/js/app.js"></script>

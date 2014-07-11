@@ -167,7 +167,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory
         
 
 
-        $scope.player = videojs('video', {'techOrder': ['youtube'], 'autoplay': false, 'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+        $scope.player = videojs('video', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         $scope.player.on('next', function(e){
             $scope.activeIndex++;;
           $scope.player.playList($scope.activeIndex);
@@ -178,7 +178,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory
               $scope.activeIndex--;;
               $scope.player.playList($scope.activeIndex);
               $scope.updateActiveVideo();
-              $scopet.player.play();
+              $scope.player.play();
           });
           $scope.player.on('error', function(event) {
               var messages = {
@@ -209,12 +209,19 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory
             
          };
          $scope.select = function(id, $event){
+             // $scope.player.dispose();
+            $scope.player.error_ = null;
+            $scope.player.error(null);
 
+                   $scope.player.pause();
           if (id != $scope.activeIndex) {
             $scope.player.playList(id);
+            // $scope.player._cache = {};
             $scope.updateActiveVideo();
         }
-            $scope.player.play();
+           $scope.player.ready(function () {
+                   $scope.player.play();
+               });
         };
         
         $scope.updateActiveVideo = function() {
@@ -259,12 +266,17 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory
                     var parseToPlay = function(data) {
                         var result = []
                         for (var i = 0, len = data.length; i<len; i++) {
-                            result.push({
-                                type: 'video/youtube',
+                            var tmp = {
+                                type: 'video/' + data[i].domain,
                                 src: data[i].domain_url,
-                                techOrder: ['youtube'],
+                                techOrder: [data[i].domain],
                                 title: data[i].title
-                            });
+                            };
+                            if (data[i].domain == 'soundcloud') {
+                                tmp.type = 'audio/soundcloud';
+                                tmp.soundcloudClientId = '6132bb5a168d685a9bb97f4efc5f8e18';
+                            }
+                            result.push(tmp);
                             data[i].strim = {
                                 slug:  (data[i].strims_url.split('/')[2]).toLowerCase(),
                                 name:  (data[i].strims_url.split('/')[2])
@@ -273,6 +285,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','$cacheFactory
                         return result;
                     };
                     $scope.songData = songs[0];
+                    console.log(parseToPlay(songs));
                     if (after == 0) {
                         $scope.songs = songs;
                         $scope.player.playList(parseToPlay(songs));
