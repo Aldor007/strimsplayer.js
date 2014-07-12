@@ -11,7 +11,6 @@ function playList(options,arg){
         videoTypes = {
             'youtube' : 'video/youtube',
             'vimeo' : 'video/vimeo',
-            'dailymotion': 'video/dailymotion',
             'soundcloud': 'audio/soundcloud'
         };
 
@@ -53,7 +52,6 @@ function playList(options,arg){
           player.pl.videos.push(videos[i]);
     }
     else {
-        console.log(JSON.stringify(videos));
         throw new Error('unuported');
         }
     }
@@ -98,7 +96,6 @@ function playList(options,arg){
   };
 
   player.pl._setVideoSource = function(src, poster) {
-      console.log('src = ' + JSON.stringify(src));
     player.src(src);
   };
 

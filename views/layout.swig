@@ -99,8 +99,6 @@
       </div>
     </footer>
 
-<!-- Use Assetic -->
-<!-- Placed at the end of the document so the pages load faster -->
 
 <!--SCRIPTS-->
 <script src="/js/dependencies/aaajquery-1.11.1.min.js"></script>
@@ -116,6 +114,8 @@
 <script src="/js/dependencies/videojs/youtube.js"></script>
 <script src="/js/dependencies/zzui-bootstrap-tpls.js"></script>
 <script src="/js/app.js"></script>
+<script src="/js/controllers.js"></script>
+<script src="/js/services.js"></script>
 <!--SCRIPTS END-->
 {% block javascript %}{% endblock %}
 
