@@ -10,15 +10,14 @@ Date.fromString = DateUtils.dateFromString;
 
 module.exports = {
     add: function(req, res) {
-        var song = JSON.parse(req.param('song'))
-        sails.log.info('SongController/add called with songs=' + req.param('song'));
-        if (song.domain.indexOf('tu') != -1) {
-            song.domain = 'youtube';
+        var reqParam = req.param('song') || req.param('songs');
+        if (!reqParam) {
+            res.json(400, {message: 'Bad request'});
         }
-        else {
-            song.domain_id = 'unknow';
-            res.json(400, "not supported");
-        }
+        var song = JSON.parse(reqParam);
+
+        sails.log.info('SongController/add called with songs=' + songs);
+
         song.date = Date.fromString(song.date);
         Strim.findOneBySlug(song.strim, function(err, strim) {
             
