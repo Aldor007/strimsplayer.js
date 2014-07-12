@@ -5,14 +5,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var url = require('url');
-var fromString = require('../../lib/date.js').DatefromString;
-Date.fromString = fromString;
-
-
-
-
-
-
+var DateUtils = require('../../lib/DateUtils.js').DateUtils;
+Date.fromString = DateUtils.dateFromString;
 
 module.exports = {
     add: function(req, res) {
