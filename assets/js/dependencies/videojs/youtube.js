@@ -177,8 +177,9 @@
             this.ytplayer.destroy();
 
         // Remove the poster
-        this.player_el_.querySelectorAll('.vjs-poster')[0].style.backgroundImage = 'none';
-        
+        if (this.player_el_.querySelectorAll('.vjs-poster')[0]) {
+            this.player_el_.querySelectorAll('.vjs-poster')[0].style.backgroundImage = 'none';
+        }
         // If still connected to the DOM, remove it.
         if (this.el_.parentNode) {
           this.el_.parentNode.removeChild(this.el_);

@@ -18,10 +18,10 @@ module.exports = {
 
     },
     list: function (req, res) {
-        console.log('StrimController/list called')
+        sails.log.info('StrimController/list called')
         Strim.find().exec(function (err, strims) {
             if (err) {
-                console.error('StrimController/list error=' + JSON.stringify(err));
+                sails.log.error('StrimController/list error=' + JSON.stringify(err));
                 return res.send(500);
             } else {
                 res.json(strims);
@@ -35,7 +35,8 @@ module.exports = {
         var saveStrim = function(strimName) { 
             Strim.create({name: strimName}).exec(function(err, strim){
                 if(err) {
-                    return res.json({status: 'error', message: 'Strim istnieje!'}, 500);
+                    sails.log.error('StrimyController/add error', error);
+                    return res.json({status: 'error', message: 'Strim istnieje!'}, err.status);
                 } else {
                     console.info('StrimyController/add 200 added strim  strimName=' + strimName);
                     res.json({status: 'ok', message: 'Strim ' + strim + 'dodany'},200);
@@ -45,7 +46,7 @@ module.exports = {
         };
 
         var strimName = req.param('name');
-        console.info('StrimyController/add called with strimName=' + strimName);
+        sails.loge.info('StrimyController/add called with strimName=' + strimName);
         var errorRes = {};
         request( {url:'http://strims.pl/s/'+strimName + '?filtr=video',
                     followRedirect: false,
@@ -65,7 +66,6 @@ module.exports = {
                             errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
                             console.info('StrimyController/add 404 Not Found strim with strimName=' + strimName);
                             res.json(errorRes, 404)
-                    
                     }
 
                 });

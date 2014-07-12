@@ -60,6 +60,10 @@ module.exports.routes = {
           controller: 'song',
           action: 'list'
     },
+  'get /songs/listbyname/:name':{
+          controller: 'song',
+          action: 'listByName'
+    },
   'get /dodaj/strim': {
           view: 'create'
     },

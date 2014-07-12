@@ -8,7 +8,7 @@ videojs.Vimeo=videojs.MediaTechController.extend(
 this.player_el_.firstChild);this.baseUrl="https"==document.location.protocol?"https://secure.vimeo.com/video/":"http://player.vimeo.com/video/";this.vimeo={};this.vimeoInfo={};var h=this;this.el_.onload=function(){h.onLoad()};this.startMuted=a.options().muted;
                                 
                                 // console.log("--------222 --- ",JSON.stringify(a), JSON.stringify(d), JSON.stringify(e) );
-                                this.src(g_srcVal || a.options().src)}});videojs.Vimeo.prototype.dispose=function(){this.vimeo.api("unload");delete this.vimeo;this.el_.parentNode.removeChild(this.el_);videojs.MediaTechController.prototype.dispose.call(this)};
+                                this.src(g_srcVal || a.options().src)}});videojs.Vimeo.prototype.dispose=function(){ if(this.vimeo) {if(this.vimeo.api) this.vimeo.api("unload");delete this.vimeo;this.el_.parentNode.removeChild(this.el_);videojs.MediaTechController.prototype.dispose.call(this)}};
 videojs.Vimeo.prototype.src=function(a){ console.log("stc" +  a); if(!a) throw new Error("KKK"); this.isReady_=!1;
     if(a.match(/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/))
     

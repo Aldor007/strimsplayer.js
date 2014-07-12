@@ -8,9 +8,8 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
     function PlayerCtrl($scope,$window, $routeParams, strimsplayer, alertService) {
         $scope.songs = [];
         $scope.songData = {};
-        $scope.currentStrim = {};
-        $scope.currentStrim.name = "aaaaaaaaaaaf - - ";
         $scope.thereAreMoreSongs = true;
+        $scope.strimName = "Wszystkie strimy";
         $scope.player = videojs('video', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){
@@ -83,16 +82,10 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
 
     };
     /* ------------------API----------------*/
-    $scope.findSongs = function(strimObj) {
-        var id = '';
-        $scope.strimName = 'Wszystkie strimy';
-        if (strimObj) {
-            id = strimObj.id
-            $scope.strimName = strimObj.name;
-            $scope.saveApply($scope.strimName);
-        }
+    $scope.findSongs = function(strimName) { 
+        strimName = strimName || '';
         if ($scope.thereAreMoreSongs)
-            strimsplayer.callApi({url: StrimsPlayerApi.LIST_SONGS_IN_STRIM + id, paginate: true, method: 'POST'} , function(Songerr, songs, after){
+            strimsplayer.callApi({url: strimsplayer.API.LISTBYNAME_SONGS_IN_STRIM + strimName, paginate: true, method: 'POST'} , function(Songerr, songs, after) {
                 if (Songerr) {  //server errrpr
                     alertService.setAlert('danger', alertService.SERVER_ERROR);
                     console.log('Error ' + Songerr);
@@ -124,6 +117,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 }
                 return result;
             };
+            console.log(songs);
             $scope.songData = songs[0];
             var width = document.getElementById('video').parentElement.offsetWidth;
             $scope.player.width(width).height(width * 9/16);
@@ -148,37 +142,22 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
          });
     };
     $scope.getMoreSongs = function() {
-        var currentRouteParam = $routeParams.strim;
-        if (currentRouteParam) {
+        if ($routeParams.strim) {
+            var currentRouteParam = $routeParams.strim.toLowerCase();
             console.log('params = ' + $routeParams.strim);
-            if( currentRouteParam .toLowerCase() != $scope.currentStrim.name.toLowerCase()) {
-                if (currentRouteParam.indexOf('+') != -1 )
-                    $scope.currentStrim.name = 'sdfkj sdfijsdifjsdkl jfsdkj fklsdjfk';
-                    strimsplayer.after = 0;
-                    $scope.thereAreMoreSongs = true;
-                    alertService.reset();
+            if( currentRouteParam != $scope.strimName) {
+                $scope.strimName = currentRouteParam;
+                strimsplayer.after = 0;
+                $scope.thereAreMoreSongs = true;
+                alertService.reset();
+                $scope.findSongs($scope.strimName);
             }
-            if($scope.currentStrim.id) {
-                $scope.findSongs($scope.currentStrim)
+            else {
+                $scope.findSongs($scope.strimName);
                 return;
             }
-            strimsplayer.callApi( {url: StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
-                var strimIndex = null, len = strimsMenuData.length;
-                for (var i = 0;  i<len; i++) {
-                    if (strimsMenuData[i].slug == $routeParams.strim.toLowerCase()) {
-                        strimIndex = i;
-                        break;
-                    }
-                }
-                if ( err || strimIndex == null)  {
-                    alertService.setAlert('danger', 'Nie zanleziono strima!');
-                    return;
-                }
-                $scope.currentStrim = strimsMenuData[strimIndex];
-                $scope.findSongs(strimsMenuData[strimIndex]);
-
-            }); 
         } else {
+            $scope.strimName = "Wszystkie strimy";
             $scope.findSongs(null);
         }
     };
@@ -188,7 +167,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
 
 app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     function DropdownCtrl($scope, strimsplayer, alertService) {
-    strimsplayer.callApi( {url: strimsplayer.StrimsPlayerApi.LIST_STRIMS}, function (err, strimsMenuData) {
+    strimsplayer.callApi( {url: strimsplayer.API.LIST_STRIMS}, function (err, strimsMenuData) {
         if (err) {
             alertService.setAlert('danger', alertService.UNKNOW_EROR);
         }
@@ -225,7 +204,7 @@ app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
         $scope.submitForm = function(isValid) {
             if(isValid) {
                 strimsplayer.callApi( {
-                        url: StrimsPlayerApi.ADD_STRIM, 
+                        url: strimsplayer.API.ADD_STRIM, 
                         method: "POST", 
                         data: {name: $scope.strimForm.name.$modelValue}
                 }, function(err, response) {

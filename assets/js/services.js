@@ -1,8 +1,9 @@
 app.service('strimsplayer', ['$http', '$cacheFactory',
     function ($http, $cacheFactory) {
-        this.StrimsPlayerApi = {
+        this.API = {
             LIST_STRIMS: '/api/strims/list/',
             LIST_SONGS_IN_STRIM:'/api/songs/list/',
+            LISTBYNAME_SONGS_IN_STRIM:'/api/songs/listbyname/',
             ADD_STRIM:  '/api/strims/add/'
         };
 
@@ -61,6 +62,7 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
                         callback('Bład serwera', null);
                     }
                     else {
+                        console.error('strimsplayerApi error status code ' + error.status);
                         callback('Nieznany bład', null);
                     }
 
