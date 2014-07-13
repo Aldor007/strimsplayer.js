@@ -14,7 +14,16 @@
 
 <script src="http://connect.soundcloud.com/sdk.js"></script>
 <script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+      ga('create', 'UA-52792740-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" ng-controller="RootCtrl">
@@ -58,7 +67,7 @@
                         </a>
                         <ul class="dropdown-menu" roles="menu">
                             <li ng-repeat="choice in strims">
-                                    <a href="/#!s/[[choice.slug]]">[[ choice.name ]] </a>
+                                    <a href="/#s/[[choice.slug]]">[[ choice.name ]] </a>
                               </li>
                         </ul>
                     </li>
