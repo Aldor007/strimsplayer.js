@@ -13,6 +13,7 @@ module.exports = {
         var reqParam = req.param('song');
         if (!reqParam) {
             res.json(400, {message: 'Bad request'});
+            return;
         }
         var song = JSON.parse(reqParam);
 
@@ -21,7 +22,7 @@ module.exports = {
         song.date = Date.fromString(song.date);
         Strim.findOneBySlug(song.strim, function(err, strim) {
             
-            if (strim === undefined) return res.notFound();
+            if (strim === undefined || strim === null) return res.notFound();
             if (err) return next(err);
             song.strim = strim;
             Song.create(song).exec(function (err1, saved) {
@@ -45,7 +46,7 @@ module.exports = {
             res.json(400, {message: 'Bad request'});
             return;
         }
-        if(reqParam.length == 0 ) {
+        if(reqParam.length === 0 ) {
             res.json(400, {message: 'Empty array'});
             return;
         }
@@ -182,7 +183,7 @@ module.exports = {
                     return;
                 }
                 var len = strims.length;
-                if (len == 0 ) {
+                if (len === 0 ) {
                     sails.log.warn('SongController/listByName not found songs');
                     res.json([]);
                 }
@@ -202,7 +203,7 @@ module.exports = {
                         res.json(err.status);
                     } else {
                         var sonsgsLen = songs.length;
-                        if (sonsgsLen == 0 ) {
+                        if (sonsgsLen === 0 ) {
                             return res.json([]);
                         }
                         songs.forEach(function (element, index) {

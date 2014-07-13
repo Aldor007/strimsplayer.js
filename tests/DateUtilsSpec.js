@@ -6,13 +6,13 @@ describe('DateUtils', function () {
         it('should parse 1 sierpnia 2013', function() {
             var given = '1 sierpnia 2013 20:00';
             var result = DateUtils.parseDate(given);
-            expect(result).toBe('1-AUG-2013 20:00')
+            expect(result).toBe('1-AUG-2013 20:00');
         
         });
         it('should parse 1 pażdziernika 2013', function() {
             var given = '1 pażdziernika 2013 20:00';
             var result = DateUtils.parseDate(given);
-            expect(result).toBe('1-OCT-2013 20:00')
+            expect(result).toBe('1-OCT-2013 20:00');
         
         });
     });
@@ -31,13 +31,13 @@ describe('DateUtils', function () {
             expect(result).toEqual(expected);
         
         });
-        it('should parse date from parseDate', function () {
-            var given = '13 lipca  2014 18:01';
+        it('should parse date from parseDate#2', function () {
+            var given = '13 lipca 2014 18:01';
             given = DateUtils.parseDate(given);
-            var expected =new  Date(2014, 6, 1, 18, 1);
+            var expected =new  Date(2014, 6, 13, 18, 1);
             var result = DateUtils.dateFromString(given);
             expect(result).toEqual(expected);
         
-        })
+        });
     });
 });
