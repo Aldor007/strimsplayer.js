@@ -19,7 +19,7 @@ module.exports = {
     },
     list: function (req, res) {
         sails.log.info('StrimController/list called')
-        Strim.find().sort('name desc').exec(function (err, strims) {
+        Strim.find().sort('name ASC').exec(function (err, strims) {
             if (err) {
                 sails.log.error('StrimController/list error=' + JSON.stringify(err));
                 return res.send(500);

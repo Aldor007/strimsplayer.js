@@ -1,0 +1,15 @@
+{
+    "name"        : "apicli.js",
+    "script"      : "cli.js",
+    "args"        : "[ '-l', '127.0.0.1:8001']",
+    "instance"    : 1,
+    "port"        : 8001,
+    "user"  : "www-data",
+    "watch": "true",
+    "env": {
+            "AWESOME_SERVICE_API_TOKEN": "xxx",
+            "MYSQL_PASSWORD": "strimsplayer1234qwe#",
+            "MYSQL_USER": "strimsplayer.js",
+            "MYSQL_DB": "strimsplayer"
+        }
+  }
