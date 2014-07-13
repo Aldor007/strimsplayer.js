@@ -1,27 +1,20 @@
-// var setPlayerExents
-
-
-
-
+'use strict';
 
 app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer', 'alertService',
     function PlayerCtrl($scope,$window, $routeParams, strimsplayer, alertService) {
         $scope.songs = [];
         $scope.songData = {};
+        $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
-        $scope.strimName = "Wszystkie strimy";
-        $scope.player = videojs('video', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+        // $scope.strimName = "Wszystkie strimy";
+        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){
-          $scope.activeIndex++;
-          $scope.player.playList($scope.activeIndex);
           $scope.updateActiveVideo();
           $scope.player.play();
         });
 
         $scope.player.on('prev', function(e){
-            $scope.activeIndex--;
-            $scope.player.playList($scope.activeIndex);
             $scope.updateActiveVideo();
             $scope.player.play();
         });
@@ -46,7 +39,8 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
 
         $scope.player.on('lastVideoEnded', function(e){
             console.log('Last video has finished');
-            $scope.getMoreSongs();
+            if ($scope.thereAreMoreSongs)
+                $scope.getMoreSongs();
         });
 
         $scope.nextOrPrev  = function($event) {
@@ -98,15 +92,18 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 var parseToPlay = function(data) {
                     var result = []
                     for (var i = 0, len = data.length; i<len; i++) {
+                        var domain = data[i].domain.split('.')[0];
+                        if (domain.indexOf('youtu') != -1)
+                            domain = 'youtube'
                         var tmp = {
-                            type: 'video/' + data[i].domain,
+                            type: 'video/' + domain,
                             src: data[i].domain_url,
-                            techOrder: [data[i].domain],
+                            techOrder: [domain],
                             title: data[i].title
                         };
-                        if (data[i].domain == 'soundcloud') {
-                                tmp.type = 'audio/soundcloud';
-                                tmp.soundcloudClientId = '6132bb5a168d685a9bb97f4efc5f8e18';
+                        if (domain == 'soundcloud') {
+                            tmp.type = 'audio/soundcloud';
+                            tmp.soundcloudClientId = '6132bb5a168d685a9bb97f4efc5f8e18';
                         }
                         result.push(tmp);
                         data[i].strim = {
@@ -117,12 +114,14 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 }
                 return result;
             };
-            console.log(songs);
             $scope.songData = songs[0];
-            var width = document.getElementById('video').parentElement.offsetWidth;
-            $scope.player.width(width).height(width * 9/16);
             if (after == 0) { //first run of funciton, 
                 $scope.songs = songs;
+                if ($scope.player) {
+                    // $scope.player.dispose();
+                     // delete $scope.player;
+                }
+                // $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
                 $scope.player.playList(parseToPlay(songs));
             } else {
                 if (songs.length == 0 ) {
@@ -131,23 +130,25 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 }
                 for (var i = 0; i < songs.length; i++)
                     $scope.songs.push(songs[i]);
-                    $scope.player.addVideosEx(parseToPlay(songs));
-                }
+                $scope.player.addVideosEx(parseToPlay(songs));
+            }
+            var width = document.getElementById('video_player').parentElement.offsetWidth;
+            $scope.player.width(width).height(width * 9/16);
 
-                $scope.saveApply($scope.songData);
-                $scope.saveApply($scope.strimName);
-                $scope.saveApply($scope.songs);
-                $scope.saveApply($scope.player)
+            $scope.saveApply($scope.songData);
+            $scope.saveApply($scope.strimName);
+            $scope.saveApply($scope.songs);
+            $scope.saveApply($scope.player)
     
          });
     };
     $scope.getMoreSongs = function() {
         if ($routeParams.strim) {
             var currentRouteParam = $routeParams.strim.toLowerCase();
-            console.log('params = ' + $routeParams.strim);
             if( currentRouteParam != $scope.strimName) {
                 $scope.strimName = currentRouteParam;
                 strimsplayer.after = 0;
+                $scope.player.clearEvents();
                 $scope.thereAreMoreSongs = true;
                 alertService.reset();
                 $scope.findSongs($scope.strimName);
@@ -157,6 +158,10 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 return;
             }
         } else {
+            if( 'Wszystkie strimy' != $scope.strimName) {
+                strimsplayer.after = 0;
+                $scope.player.clearEvents();
+            }
             $scope.strimName = "Wszystkie strimy";
             $scope.findSongs(null);
         }

@@ -10,7 +10,7 @@ module.exports = {
     get: function (req, res) {
         var name = req.param('name').toLowerCase();
         if (name) {
-            res.redirect('/!#s/'+ name);
+            res.redirect('/#!s/'+ name);
         } else {
         
             res.redirect('/');
@@ -19,7 +19,7 @@ module.exports = {
     },
     list: function (req, res) {
         sails.log.info('StrimController/list called')
-        Strim.find().exec(function (err, strims) {
+        Strim.find().sort('name desc').exec(function (err, strims) {
             if (err) {
                 sails.log.error('StrimController/list error=' + JSON.stringify(err));
                 return res.send(500);
@@ -35,10 +35,19 @@ module.exports = {
         var saveStrim = function(strimName) { 
             Strim.create({name: strimName}).exec(function(err, strim){
                 if(err) {
-                    sails.log.error('StrimyController/add error', error);
+                    sails.log.error('StrimyController/add error', err);
                     return res.json({status: 'error', message: 'Strim istnieje!'}, err.status);
                 } else {
                     console.info('StrimyController/add 200 added strim  strimName=' + strimName);
+                    request({url: 'http://' + sails.config.cliapi.HostAndPORT + '/songscollectorfromstrim/'+ strimName}, function(errorUpdate, response, body) {
+                        if (errorUpdate) {
+                            sails.log.error('StrimController/add error updating songs ', errorUpdate);
+                        } else {
+                            sails.log.info('StrimController/add added songs', body);
+                        }
+
+                             
+                    });
                     res.json({status: 'ok', message: 'Strim ' + strim + 'dodany'},200);
                 }
 
@@ -46,7 +55,7 @@ module.exports = {
         };
 
         var strimName = req.param('name');
-        sails.loge.info('StrimyController/add called with strimName=' + strimName);
+        sails.log.info('StrimController/add called with strimName=' + strimName);
         var errorRes = {};
         request( {url:'http://strims.pl/s/'+strimName + '?filtr=video',
                     followRedirect: false,
@@ -58,13 +67,13 @@ module.exports = {
                         }
                         else {
                             errorRes.message = "Nie znaleziono filmów na "+ strimName;
-                            console.info('StrimyController/add 404 Not propert strim  strimName=' + strimName);
+                            console.info('StrimController/add 404 Not propert strim  strimName=' + strimName);
                             res.json(errorRes, 404)
                         }
                     } else {
                     
                             errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
-                            console.info('StrimyController/add 404 Not Found strim with strimName=' + strimName);
+                            console.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
                             res.json(errorRes, 404)
                     }
 

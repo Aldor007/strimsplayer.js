@@ -138,8 +138,12 @@ videojs.Player.prototype.prev = function(){
   this.pl._nextPrev('prev');
   return this;
 };
-
+videojs.Player.prototype.clearEvents = function () {
+    if(this.pl)
+        this.off('ended');
+};
 videojs.Player.prototype.addVideosEx = function(videos) {
     this.pl._addVideos(videos);
 };
+
 videojs.plugin('playList', playList);

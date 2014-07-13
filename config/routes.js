@@ -71,6 +71,10 @@ module.exports.routes = {
           controller: 'strim',
           action: 'add'
     },
+  'post /songs/addarray': {
+          controller: 'song',
+          action: 'addArray'
+    },
 
   // Custom routes here...
 

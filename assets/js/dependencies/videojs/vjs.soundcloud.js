@@ -40,7 +40,6 @@
           this.player_.options()[key] = options.source[key];
         }
       }
-      console.log(JSON.stringify(this.player_.options()));
       this.soundcloudSource = srcValGl || this.srcVal ||  this.player_.options().src || "";
       if (!this.canPlaySource(this.soundcloudSource))
       throw new Error("eee");
@@ -58,7 +57,6 @@
         style: "visibility: hidden;",
         src: "https://w.soundcloud.com/player/?url=" + this.soundcloudSource
       });
-        console.log("https://w.soundcloud.com/player/?url=" + this.soundcloudPlayer);
       this.player_el_.appendChild(this.scWidgetElement);
       this.player_el_.classList.add("backgroundContainer");
       _debug("added widget div");

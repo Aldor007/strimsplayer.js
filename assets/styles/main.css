@@ -12,12 +12,12 @@ header#strimheader {
     text-align: center;
     vertical-align: middle;
 }
-header h1 {
+header#strimheader h1 {
     margin: 0;
     padding: 0;
     display: block;
     text-transform: uppercase;
-    font-size: 3em;
+    font-size: 2em;
     text-shadow: 0 4px 3px rgba(0,0,0,0.4),
     0 8px 13px rgba(0,0,0,0.1),
     0 18px 23px rgba(0,0,0,0.1);

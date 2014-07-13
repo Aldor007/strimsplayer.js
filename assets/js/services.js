@@ -1,3 +1,4 @@
+'use strict';
 app.service('strimsplayer', ['$http', '$cacheFactory',
     function ($http, $cacheFactory) {
         this.API = {
@@ -45,7 +46,12 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
                $http(httpOptions).success(function(response) {
                    var tmpAfter = that.after;
                    if (options.paginate && response.length > 0) {
-                        that.after = response[response.length - 1].id;
+                       var maxId = 0;
+                       var len = response.length;
+                       for (var i= 0;  i <len; i++)
+                            if (response[i].id > maxId)
+                                maxId = response[i].id;
+                        that.after = maxId;
                    }
                     callback(null, response, tmpAfter);
 
