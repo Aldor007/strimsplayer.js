@@ -8,14 +8,21 @@ Module | Status
 
 ---
 
-# Contributing
+# Urchomienie
 
 Po clonie 
+
+```
+#!bash
+#uruchomienie
 npm install
-Uruchomienie
-node app.js
-Testy
-npm install -g  jasmine-node@0.1.13 
+node app.js 
+#testy
+npm install -g  jasmine-node@1.4.12
+jasmine-node tests/
+
+```
+
 
 
 a [Sails](http://sailsjs.org) application
