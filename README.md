@@ -13,9 +13,9 @@ Module | Status
 Po clonie 
 
 ```
-#!bash
 #uruchomienie
 npm install
+bower install
 node app.js 
 #testy
 npm install -g  jasmine-node@1.4.12
