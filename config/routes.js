@@ -56,10 +56,6 @@ module.exports.routes = {
           controller: 'strim',
           action: 'list'
     },
-  'post /songs/list/:strimid':{
-          controller: 'song',
-          action: 'list'
-    },
   'get /songs/listbyname/:name':{
           controller: 'song',
           action: 'listByName'

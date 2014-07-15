@@ -1,7 +1,7 @@
 /**
  * StrimyController
  *
- * @description :: Server-side logic for managing strimies
+ * @description :: Server-side loogic for strim 
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var request = require('request');
@@ -12,47 +12,40 @@ module.exports = {
         if (name) {
             res.redirect('/#!s/'+ name);
         } else {
-        
             res.redirect('/');
         }
-
     },
     list: function (req, res) {
-        sails.log.info('StrimController/list called')
+        sails.log.info('StrimController/list called');
         Strim.find().sort('name ASC').exec(function (err, strims) {
             if (err) {
                 sails.log.error('StrimController/list error=' + JSON.stringify(err));
                 return res.json({message: 'DB error'}, err.status || 500);
-            } else {
-                res.json(strims);
-            }
+            } 
+            res.json(strims);
 
-        
         });
-    
     },
     add: function (req, res) {
         var saveStrim = function(strimName) { 
-            Strim.create({name: strimName}).exec(function(err, strim){
+            Strim.create({name: strimName}).exec(function(err, strim) {
                 if(err) {
                     sails.log.error('StrimyController/add error', err);
                     return res.json({status:  err.status, message: 'Strim istnieje!'}, err.status);
-                } else {
-                    console.info('StrimyController/add 200 added strim  strimName=' + strimName);
-                    request({url: 'http://' + sails.config.cliapi.HostAndPORT + '/songscollectorfromstrim/'+ strimName}, function(errorUpdate, response, body) {
-                        if (errorUpdate) {
-                            sails.log.error('StrimController/add error updating songs ', errorUpdate);
-                        } else {
-                            sails.log.info('StrimController/add added songs', body);
-                        }
-                             
-                    });
-                    res.json({status: 200, message: 'Strim ' + strimName + 'dodany'}, 200);
-                }
+                } 
+                console.info('StrimyController/add 200 added strim  strimName=' + strimName);
+                request({url: 'http://' + sails.config.cliapi.HostAndPORT + '/songscollectorfromstrim/'+ strimName}, function(errorUpdate, response, body) {
+                    if (errorUpdate) {
+                        sails.log.error('StrimController/add error updating songs ', errorUpdate);
+                    } else {
+                        sails.log.info('StrimController/add added songs', body);
+                    }
+                });
+                res.json({status: 200, message: 'Strim ' + strimName + 'dodany'}, 200);
+                
 
             });
         };
-
         var strimName = req.param('name');
         sails.log.info('StrimController/add called with strimName=' + strimName);
         var errorRes = {};
@@ -70,15 +63,12 @@ module.exports = {
                             res.json(errorRes, 404);
                         }
                     } else {
-                    
-                            errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
-                            console.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
-                            res.json(errorRes, 404);
+                        errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
+                        console.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
+                        res.json(errorRes, 404);
                     }
 
                 });
-        
     },
-	
 };
 
