@@ -21,10 +21,9 @@ module.exports = {
             unique: true
         
         },
-        // songs: {
-        //     collection: 'song',
-        //     via: 'song'
-        // },
+        songs: {
+            via: 'song'
+        },
 
   },
   beforeCreate: function(values, next) {
