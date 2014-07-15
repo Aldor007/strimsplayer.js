@@ -34,7 +34,8 @@
     "sails-redis": "https://github.com/balderdashy/sails-redis/archive/0.10.0-rc2.tar.gz",
     "crawler": "~0.2.6",
     "connect-redis": "~1.4.5",
-    "yargs": "~1.2.6"
+    "yargs": "~1.2.6",
+    "rewire": "~2.1.0"
 
   },
   "scripts": {
