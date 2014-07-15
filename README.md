@@ -2,13 +2,13 @@
 
 Module | Status
 --- | --- | ---
+**Status** | w trakcie prac
 **Global Version** | 0.0.1
 **Website** |  [strimsplayer.pl/](http://strimsplayer.pl/)
-**Github** | [illyism/redditmusicplayer](https://github.com/illyism/redditmusicplayer)
-
+**Strims** | [strims.pl/s/strimsplayer](http://strims.pl/s/strimsplayer)
 ---
 
-# Urchomienie
+# Uruchomienie
 
 Po clonie 
 
