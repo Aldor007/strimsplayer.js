@@ -7,9 +7,6 @@
     "user"  : "www-data",
     "watch": "true",
     "env": {
-            "AWESOME_SERVICE_API_TOKEN": "xxx",
-            "MYSQL_PASSWORD": "strimsplayer1234qwe#",
-            "MYSQL_USER": "strimsplayer.js",
-            "MYSQL_DB": "strimsplayer"
+            "AWESOME_SERVICE_API_TOKEN": "xxx"
         }
   }
