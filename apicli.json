@@ -7,6 +7,5 @@
     "user"  : "www-data",
     "watch": "true",
     "env": {
-            "AWESOME_SERVICE_API_TOKEN": "xxx"
         }
   }
