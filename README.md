@@ -53,7 +53,8 @@ Pokrycie kodu testami
 ```bash
 sudo npm install -g istanbul
 istanbul cover jasmine-node --verbose tests
-istanbul report # generowanie html-a w coverage/lcov-report
+# generowanie html-a w coverage/lcov-report
+istanbul report
 ```
 
 a [Sails](http://sailsjs.org) application
