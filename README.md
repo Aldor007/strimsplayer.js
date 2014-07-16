@@ -10,15 +10,15 @@ Module | Status
 
 # Uruchomienie
 
-Po clonie 
+Po clonie
 
 ```
 #uruchomienie
 npm install
 bower install
-node app.js 
+node app.js
 #testy
-npm install -g  jasmine-node@1.4.12
+npm install -g jasmine-node@1.14.2
 jasmine-node tests/
 
 ```
