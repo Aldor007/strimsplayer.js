@@ -1,7 +1,7 @@
 /**
  * StrimyController
  *
- * @description :: Server-side loogic for strim 
+ * @description :: Server-side loogic for strim
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var request = require('request');
@@ -21,18 +21,18 @@ module.exports = {
             if (err) {
                 sails.log.error('StrimController/list error=' + JSON.stringify(err));
                 return res.json({message: 'DB error'}, err.status || 500);
-            } 
+            }
             res.json(strims);
 
         });
     },
     add: function (req, res) {
-        var saveStrim = function(strimName) { 
+        var saveStrim = function(strimName) {
             Strim.create({name: strimName}).exec(function(err, strim) {
                 if(err) {
                     sails.log.error('StrimyController/add error', err);
                     return res.json({status:  err.status, message: 'Strim istnieje!'}, err.status);
-                } 
+                }
                 console.info('StrimyController/add 200 added strim  strimName=' + strimName);
                 request({url: 'http://' + sails.config.cliapi.HostAndPORT + '/songscollectorfromstrim/'+ strimName}, function(errorUpdate, response, body) {
                     if (errorUpdate) {
@@ -42,7 +42,7 @@ module.exports = {
                     }
                 });
                 res.json({status: 200, message: 'Strim ' + strimName + 'dodany'}, 200);
-                
+
 
             });
         };
