@@ -57,4 +57,10 @@ istanbul cover jasmine-node --verbose tests
 istanbul report
 ```
 
+# Pobieranie wideo
+Zakładając, że aplikacja działa na localhost:1337 należy dodać strim do bazy  i uruchomić:
+```bash
+node cli.js collectsongs
+```
+
 a [Sails](http://sailsjs.org) application
