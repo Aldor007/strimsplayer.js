@@ -43,7 +43,10 @@ export MYSQL_USER='test'
 export MYSQL_DB='strimsplayer'
 export MYSQL_PASSWORD='tajne'
 node app.js
+# lub w trybie prod
+node app.js --prod
 ```
+
 #Testy
 Uruchomienie testów
 ```bash
