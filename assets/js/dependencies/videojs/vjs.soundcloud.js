@@ -41,8 +41,6 @@
         }
       }
       this.soundcloudSource = srcValGl || this.srcVal ||  this.player_.options().src || "";
-      if (!this.canPlaySource(this.soundcloudSource))
-      throw new Error("eee");
       this.scWidgetId = this.player_.id() + '_soundcloud_api';
       this.scWidgetElement = videojs.Component.prototype.createEl('iframe', {
         id: this.scWidgetId,
@@ -160,7 +158,7 @@
     _debug("currentTime " + (this.durationMilliseconds * this.playPercentageDecimal / 1000));
     return this.durationMilliseconds * this.playPercentageDecimal / 1000;
   };
-  
+
   /*
    * Set the track's current time in seconds
    *
@@ -210,10 +208,10 @@
 
   /*
    * Soundcloud doesn't do muting so we need to handle that.
-   * 
+   *
    * A possible pitfall is when this is called with true and the volume has been changed elsewhere.
    * We will use @unmutedVolumeVal
-   * 
+   *
    * @param {Boolean} muted
    */
   videojs.Soundcloud.prototype.setMuted = function(muted) {
@@ -238,7 +236,7 @@
     _debug("we support fullscreen!");
     return true;
   };
-  
+
   /**
    * Enter fullscreen mode
    */
@@ -257,7 +255,7 @@
 
   /*
    * Simple URI host check of the given url to see if it's really a soundcloud url
-   
+
    * @param url {String}
    */
   videojs.Soundcloud.prototype.isSoundcloudUrl = function(url) {
@@ -277,7 +275,7 @@
       _debug("Can play source?");
       _debug(source);
       ret = (source.type === 'audio/soundcloud') || videojs.Soundcloud.prototype.isSoundcloudUrl(source.src);
-        if (ret)  { 
+        if (ret)  {
             this.srcVal = source.src;
             srcValGl = source.src;
         }
@@ -297,7 +295,7 @@
         videojs.Soundcloud._scriptInserted = true;
         addScriptTag("https://w.soundcloud.com/player/api.js");
       }
-      
+
       var _this = this;
       this._scriptPollId = setInterval(function() {
         if(window.SC) {
@@ -373,7 +371,7 @@
   /*
    * Callback for Soundcloud's PLAY_PROGRESS event
    * It should keep track of how much has been played.
-   * 
+   *
    * @param {Decimal= playPercentageDecimal} [0...1] How much has been played  of the sound in decimal from [0...1]
    */
 
@@ -436,7 +434,7 @@
     this.player_.error = "Soundcloud error";
     this.player_.trigger('error');
   };
-  
+
   videojs.Soundcloud._scriptInserted = false;
-  
+
 }).call(this);
