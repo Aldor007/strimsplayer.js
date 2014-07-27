@@ -30,7 +30,15 @@ module.exports = function(grunt) {
 				cwd: '.tmp/public',
 				src: ['**/*'],
 				dest: 'www'
-			}]
+			},
+            {
+				expand: true,
+                nonull: true,
+				cwd: './assets/styles/',
+				src: ['font/*'],
+				dest: '.tmp/public/min'
+            }
+            ]
 		}
 	});
 
