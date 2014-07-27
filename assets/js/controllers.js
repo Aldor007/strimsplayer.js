@@ -51,6 +51,11 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
     /**** END PLAYER  ***/
 
     $scope.removeFromPlaylist = function($id) {
+        if ($scope.activeIndex > $id) {
+            $scope.activeIndex += -1;
+            $scope.saveApply($scope.activeIndex);
+        }
+        $scope.player.removeVideo($id);
         $scope.songs.splice($id, 1);
     };
 

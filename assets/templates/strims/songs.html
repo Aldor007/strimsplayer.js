@@ -10,7 +10,7 @@
                     <div id="block_with_scroll" class="playlist">
                         <ul infinite-scroll="getMoreSongs()" infinite-scroll-distance="3" infinite-scroll-parent='true' infinite-scroll-containter="#block_with_scroll">
                                 <li ng-repeat="song in songs" ng-class="{'active':$index == activeIndex}" >
-                                  <a ng-click="removeFromPlaylist($index)" class="remove-from-playlist">-</a>
+                                  <a ng-click="removeFromPlaylist($index)" class="remove-from-playlist">x</a>
                                   <a ng-click="select($index)" data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" class="song-title" >[[song.title]]</a>
                                 </li>
                             </ul>
