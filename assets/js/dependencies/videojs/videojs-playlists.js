@@ -22,7 +22,7 @@ function playList(options,arg){
           'ogv' : 'video/ogg'
         };
          extension = videosrc.split('.').pop();
-     } 
+     }
     return videoTypes[extension] || '';
   };
 
@@ -44,7 +44,7 @@ function playList(options,arg){
     for (var i = 0, length = videos.length; i < length; i++){
 
     if (typeof videos[i].src === 'string') {
-        
+
           videos[i].src = {
               type : player.pl._guessVideoType(null, videos[i]),
               src : videos[i].src
@@ -115,6 +115,15 @@ function playList(options,arg){
     }
   };
 
+  player.pl._removeVideo = function(index){
+      if (index !== player.pl.current) {
+          player.pl.videos.splice(index, 1);
+      }
+      if (player.pl.current > index) {
+          player.pl.current += -1;
+      }
+  };
+
   if (options instanceof Array){
     player.pl.init(options, arg);
     player.pl._setVideo(0);
@@ -145,5 +154,8 @@ videojs.Player.prototype.clearEvents = function () {
 videojs.Player.prototype.addVideosEx = function(videos) {
     this.pl._addVideos(videos);
 };
+videojs.Player.prototype.removeVideo = function(index) {
+    this.pl._removeVideo(index);
+}
 
 videojs.plugin('playList', playList);
