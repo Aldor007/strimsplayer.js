@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer', 'alertService',
-    function PlayerCtrl($scope,$window, $routeParams, strimsplayer, alertService) {
+app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService',
+    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService) {
         $scope.songs = [];
         $scope.songData = {};
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
         // $scope.strimName = "Wszystkie strimy";
-        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){
           $scope.updateActiveVideo();
@@ -50,6 +50,10 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
         };
     /**** END PLAYER  ***/
 
+    $scope.removeFromPlaylist = function($id) {
+        $scope.songs.splice($id, 1);
+    };
+
     $scope.select = function(id, $event){
         $scope.player.pause();
         if (id != $scope.activeIndex) {
@@ -76,7 +80,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
 
     };
     /* ------------------API----------------*/
-    $scope.findSongs = function(strimName) { 
+    $scope.findSongs = function(strimName) {
         strimName = strimName || '';
         if ($scope.thereAreMoreSongs)
             strimsplayer.callApi({url: strimsplayer.API.LISTBYNAME_SONGS_IN_STRIM + strimName, paginate: true, method: 'POST'} , function(Songerr, songs, after) {
@@ -115,7 +119,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
                 return result;
             };
             $scope.songData = songs[0];
-            if (after == 0) { //first run of funciton, 
+            if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {
                     // $scope.player.dispose();
@@ -139,7 +143,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
             $scope.saveApply($scope.player)
-    
+
          });
     };
     $scope.getMoreSongs = function() {
@@ -168,7 +172,7 @@ app.controller('PlayerCtrl', ['$scope','$window',  '$routeParams','strimsplayer'
     };
 
 }]);
-    
+
 
 app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     function DropdownCtrl($scope, strimsplayer, alertService) {
@@ -200,17 +204,17 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
 
 app.controller('RootCtrl', ['$rootScope', 'alertService',
     function ($rootScope, alertService) {
-        $rootScope.closeAlert = alertService.closeAlert;    
+        $rootScope.closeAlert = alertService.closeAlert;
 }]);
 
 app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
     function($scope, $http,  strimsplayer, alertService) {
-        
+
         $scope.submitForm = function(isValid) {
             if(isValid) {
                 strimsplayer.callApi( {
-                        url: strimsplayer.API.ADD_STRIM, 
-                        method: "POST", 
+                        url: strimsplayer.API.ADD_STRIM,
+                        method: "POST",
                         data: {name: $scope.strimForm.name.$modelValue}
                 }, function(err, response) {
                     if (err) {
@@ -218,9 +222,8 @@ app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
                     }
                     alertService.setAlert('info', 'Strim dodany!');
                 });
-                
+
             }
         };
-    
-}]);
 
+}]);
