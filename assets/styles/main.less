@@ -1,0 +1,158 @@
+#wrapper {
+  min-height: 100%;
+  height: auto;
+}
+
+#strimheader {
+  height: 75px;
+  background: fade(@black, 70%);
+  color: @color-txt;
+  padding-top: 15px;
+  text-align: center;
+  vertical-align: middle;
+  h1 {
+    margin: 0;
+    padding: 0;
+    display: block;
+    font-family: @museo;
+    text-transform: uppercase;
+    font-size: 2em;
+    text-shadow: 0 4px 3px fade(@black, 40%),
+    0 8px 13px fade(@black, 10%),
+    0 18px 23px fade(@black, 10%);
+  }
+}
+.video-holder {
+  background: #1b1b1b;
+}
+.centered {
+  width: @viewport-width;
+  margin: 30px auto 0;
+}
+
+.playlist-components {
+  height: 264px;
+}
+.video-js, .playlist-components {
+  display: inline-block;
+  vertical-align: top;
+}
+.button-holder {
+  padding: 10px;
+  height: 36px;
+}
+
+.playlist {
+  height: 220px;
+  overflow-y: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 5px 0;
+  padding: 1px 0 0 0;
+  position: relative;
+  background: -moz-linear-gradient(top,#000 0,#212121 19%,#212121 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#000),color-stop(19%,#212121),color-stop(100%,#212121));
+  background: -o-linear-gradient(top,#000 0,#212121 19%,#212121 100%);
+  background: -ms-linear-gradient(top,#000 0,#212121 19%,#212121 100%);
+  background: linear-gradient(to bottom,#000 0,#212121 19%,#212121 100%);
+  box-shadow: 0 1px 1px #1a1a1a inset,0px 1px 1px #454545;
+  border: 1px solid #1a1a18;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+      padding: 10px;
+      border-bottom: 1px solid @black;
+      cursor: pointer;
+      &.active {
+        background-color: lighten(@color-highlight, 20%);
+        border-color: lighten(@color-highlight, 20%);
+      }
+      &:hover {
+        border-color: @color-highlight;
+        background: @color-highlight;
+      }
+    }
+  }
+  .poster,
+  .title  {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .number {
+    padding-right: 10px;
+  }
+  .poster img {
+    width: 64px;
+  }
+  .title {
+    padding-left: 10px;
+  }
+
+}
+#next {
+  float: right;
+}
+#prev {
+  float: left;
+}
+
+#prev, #next {
+  cursor: pointer;
+}
+
+div.songinfo {
+  color: @color-txt;
+}
+h3.songtitle {
+  margin-left: 2px;
+  margin-top: 0px;
+}
+div.content_voting {
+  float: left;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+div.content_inner {
+  float: left;
+  margin-top: 10px;
+}
+span.strimslink {
+  float: right;
+}
+div.content_vote_wrapper {
+  display: block;
+  text-align: center;
+  line-height: 23px;
+  height: 22px;
+  font-size: 16px;
+  font-weight: bold;
+  overflow: hidden;
+  word-wrap: normal;
+  color: rgb(170, 170, 170);
+}
+.footer {
+  border-top: 1px solid darken(@color-bg-nav, 10%);
+  background-color: @color-bg-nav;
+}
+
+
+
+
+/*****/
+
+
+
+
+
+
+/*****/
+.sp-nav {
+  margin-bottom: 0;
+  background-color: @white;
+  border-bottom: 0;
+  z-index: 1000000000;
+}
