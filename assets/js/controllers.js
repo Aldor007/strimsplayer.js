@@ -63,20 +63,26 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.player.pause();
         if (id != $scope.activeIndex) {
             $scope.player.playList(id);
-            $scope.updateActiveVideo();
+            //we don't want the playlist to scroll when users click on the playlist item
+            //they may find it a bit confusing
+            $scope.updateActiveVideo(false);
         }
         $scope.player.ready(function () {
             $scope.player.play();
         });
     };
 
-    $scope.updateActiveVideo = function() {
+    $scope.updateActiveVideo = function(doScroll) {
+        doScroll = doScroll === undefined ? true : doScroll;
+
         $scope.player.error_ = null;
         $scope.player.error(null);
         $scope.activeIndex = $scope.player.pl.current;
         $scope.songData = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
-        $scope.updatePlaylistPosition();
+        if (doScroll === true) {
+            $scope.updatePlaylistPosition();
+        }
     };
 
     $scope.updatePlaylistPosition = function() {

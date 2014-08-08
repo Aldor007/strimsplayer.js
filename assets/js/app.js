@@ -26,7 +26,7 @@ var saveApply = function ($scope, data) {
 
 
 var app = angular.module('app', [
-        'ui.bootstrap',
+        'ui.bootstrap', 
         'ngRoute',
         'infinite-scroll'
         ]).config(['$interpolateProvider', '$routeProvider', function($interpolateProvider, $routeProvider){
@@ -45,27 +45,6 @@ var app = angular.module('app', [
           controller: 'PlayerCtrl'
         });
     }
-]).directive('doScroll', function() {
-    return function(scope, element, attrs) {
-        var offset;
-        var parent;
-        console.log(attrs.isActive);
-        scope.$watch(attrs.isActive, function(newVal, oldVal) {
-            //console.log(element);
-            //console.log(val);
-        })
+]);
 
-        if (element.hasClass(".active")) {
-            console.log("selected:",element);
-            offset = element.position().top;
-            parent = element.parent();
-            console.log(parent);
-            console.log(offset);
-            parent.css({"margin-top": - offset});
-        }
-        if (scope.$last){
-            console.log("last:",element);
 
-        }
-    };
-});
