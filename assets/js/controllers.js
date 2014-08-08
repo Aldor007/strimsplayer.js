@@ -6,6 +6,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.songData = {};
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
+        $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
         $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         /*** PLAYER ****/
@@ -46,7 +47,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.nextOrPrev  = function($event) {
             var clicked = $event.target;
             $scope.player[clicked.id]();
-            $scope.updateActiveVideo();
         };
     /**** END PLAYER  ***/
 
@@ -76,8 +76,21 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.activeIndex = $scope.player.pl.current;
         $scope.songData = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
-
+        $scope.updatePlaylistPosition();
     };
+
+    $scope.updatePlaylistPosition = function() {
+        var selected = $scope.playlistContainer.find("ul li").eq($scope.activeIndex);
+        var offset;
+        if (selected.length > 0) {
+            offset = selected.position().top + $scope.playlistContainer.scrollTop();
+            $scope.playlistContainer.animate({scrollTop: offset}, 300);
+        }
+    };
+
+    $scope.isActive = function(index) {
+        return index === $scope.activeIndex;
+    }
 
     $scope.saveApply = function(data) {
 
