@@ -6,6 +6,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.songData = {};
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
+        $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
         $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
         /*** PLAYER ****/
@@ -46,7 +47,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.nextOrPrev  = function($event) {
             var clicked = $event.target;
             $scope.player[clicked.id]();
-            $scope.updateActiveVideo();
         };
     /**** END PLAYER  ***/
 
@@ -63,21 +63,40 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.player.pause();
         if (id != $scope.activeIndex) {
             $scope.player.playList(id);
-            $scope.updateActiveVideo();
+            //we don't want the playlist to scroll when users click on the playlist item
+            //they may find it a bit confusing
+            $scope.updateActiveVideo(false);
         }
         $scope.player.ready(function () {
             $scope.player.play();
         });
     };
 
-    $scope.updateActiveVideo = function() {
+    $scope.updateActiveVideo = function(doScroll) {
+        doScroll = doScroll === undefined ? true : doScroll;
+
         $scope.player.error_ = null;
         $scope.player.error(null);
         $scope.activeIndex = $scope.player.pl.current;
         $scope.songData = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
-
+        if (doScroll === true) {
+            $scope.updatePlaylistPosition();
+        }
     };
+
+    $scope.updatePlaylistPosition = function() {
+        var selected = $scope.playlistContainer.find("ul li").eq($scope.activeIndex);
+        var offset;
+        if (selected.length > 0) {
+            offset = selected.position().top + $scope.playlistContainer.scrollTop();
+            $scope.playlistContainer.animate({scrollTop: offset}, 300);
+        }
+    };
+
+    $scope.isActive = function(index) {
+        return index === $scope.activeIndex;
+    }
 
     $scope.saveApply = function(data) {
 
