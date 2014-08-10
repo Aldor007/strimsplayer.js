@@ -8,7 +8,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.thereAreMoreSongs = true;
         $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
-        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){
           $scope.updateActiveVideo();
@@ -160,8 +160,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                     $scope.songs.push(songs[i]);
                 $scope.player.addVideosEx(parseToPlay(songs));
             }
-            var width = document.getElementById('video_player').parentElement.offsetWidth;
-            $scope.player.width(width).height(width * 9/16);
 
             $scope.saveApply($scope.songData);
             $scope.saveApply($scope.strimName);
