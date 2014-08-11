@@ -83,8 +83,10 @@
         <alert type="[[alert.type]]" close="closeAlert($index)">[[alert.msg]]</alert>
     </div>
 {% block content %}
-<ng-view>
-</ng-view>
+<div class="container-fluid page-holder" ng-controller="PlayerCtrl">
+    <ng-view>
+    </ng-view>
+</div>
 {% endblock %}
     <!-- Footer
     ================================================== -->

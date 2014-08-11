@@ -75,6 +75,7 @@ html {
                     color: @color-list-selected;
                     margin-left: 0;
                     padding-left: 25px;
+                    width: 100%;
                 }
             }
         }
@@ -104,7 +105,7 @@ html {
         padding: 10px 40px 10px 0;
 
         &:hover {
-            color: lighten(@color-list, 30%);
+            color: darken(@color-list, 30%);
         }
     }
 }
@@ -168,6 +169,10 @@ html {
     .content_inner {
         margin-top: -6px;
         margin-left: 40px;
+
+        a {
+            color: @color-links;
+        }
     }
     .strimlink {
         display: block;

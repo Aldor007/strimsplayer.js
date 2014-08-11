@@ -8,6 +8,16 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.thereAreMoreSongs = true;
         $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
+
+        $scope.$on('$viewContentLoaded', $scope.doInit);
+
+    $scope.doInit = function(e) {
+        //we run this function every time the view has updated
+        //we don't want a new player to be added every time
+        if ($scope.player) {
+            $scope.player.dispose();
+            delete $scope.player;
+        }
         $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){
@@ -49,6 +59,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             $scope.player[clicked.id]();
         };
     /**** END PLAYER  ***/
+    };
 
     $scope.removeFromPlaylist = function($id) {
         if ($scope.activeIndex > $id) {
