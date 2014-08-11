@@ -1,48 +1,52 @@
 
-        <div class="col-lg-5">
+    <div class="video-container" >
+        <div id="videoP" class="col-md-8">
+            <div class="row video-holder">
+                <video id="video_player" src="" class="video-js vjs-default-skin vjs-light-theme-skin" controls preload="auto"   data-setup='{ "techOrder": [ "soundcloud", "youtube", "dailymotion", "vimeo"],
+                 "soundcloudClientId": "6132bb5a168d685a9bb97f4efc5f8e18",
+                "src": "" }'>
+                </video>
+            </div>
+            <div class="row songinfo">
+                <div class="content_voting">
+                    <div class="content_vote_wrapper">
+                        <span class="content_vote_count upvotes">[[songData.upvotes]]</span>
+                    </div>
+                    <div class=content_vote_wrapper>
+                        <span class="content_vote_count downvotes">[[songData.downvotes]]</span>
+                    </div>
+                </div>
+                <h3 class="songtitle">[[songData.title]]</h3>
+                <div class="content_inner">
+                    <span class="date" title="[[songData.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.date| date:'d.MM.yyyy']]</span> przez
+                    <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.user]]</a></span>
+                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.strim.slug]]">[[songData.strim.name]]</a>.</span>
+                    <span class="strimlink"><a href="http://strims.pl[[songData.strims_url]]">Zobacz na strimsie </a></span>
+                 </div>
+
+             </div>
+        </div>
+        <div class="col-md-4 ">
             <div class="row">
                 <header id="strimheader">
                     <h1>[[strimName]]</h1>
                 </header>
-            </div>
-            <div class="row">
                 <div class="playlist-components" >
                     <div id="block_with_scroll" class="playlist">
                         <ul infinite-scroll="getMoreSongs()" infinite-scroll-distance="3" infinite-scroll-parent='true' infinite-scroll-containter="#block_with_scroll">
                                 <li ng-repeat="song in songs" ng-class="{'active':$index == activeIndex}" >
-                                  <a ng-click="removeFromPlaylist($index)" class="remove-from-playlist">x</a>
+                                  <a ng-click="removeFromPlaylist($index)" class="remove-from-playlist" title="Usuń z listy">usuń</a>
                                   <a ng-click="select($index)" data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" class="song-title" >[[song.title]]</a>
                                 </li>
                             </ul>
                     </div>
                     <div class="button-holder row">
-                        <a id="prev" alt="Previous video" src="img/Previous.png" ng-click="nextOrPrev($event)">Prev</a>
+                        <a id="prev" class="btn btn-default btn-prev" alt="Previous video" src="img/Previous.png" ng-click="nextOrPrev($event)">Prev</a>
                        <!-- <a id="shufle" ng-click="shufle()">Prev</a>
                        <a id="shufle" ng-click="shufle()">AutoPlayv</a> -->
-                        <a id="next" alt="Next video" src="img/Next.png" ng-click="nextOrPrev($event)">Next</a>
+                        <a id="next" class="btn btn-default btn-next" alt="Next video" src="img/Next.png" ng-click="nextOrPrev($event)">Next</a>
                     </div>
                 </div>
             </div>
-            <div class="row songinfo">
-                <div class="row">
-                    <div class="content_voting">
-                        <div class="content_voting">
-                            <div class="content_vote_wrapper">
-                                <span class="content_vote_count upvotes">[[songData.upvotes]]</span>
-                            </div>
-                            <div class=content_vote_wrapper>
-                                <span class="content_vote_count downvotes">[[songData.downvotes]]</span>
-                            </div>
-                        </div>
-                    </div>
-                        <h3 class="songtitle">[[songData.title]]</h3>
-                </div>
-                <div class="row content_inner">
-                        <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.user]]</a></span>
-                        <span class="date">Dodane  [[songData.date| date:'dd.MM.yyyy  H:mm']]</span> do strimu
-                        <span class="strimname"><a href="http://strims.pl/s/[[songData.strim.slug]]"> [[songData.strim.name]]</a>.</span>
-                        <span class="strimlink"><a href="http://strims.pl[[songData.strims_url]]">Zobacz na strimse </a></span>
-                 </div>
-
-             </div>
         </div>
+    </div>

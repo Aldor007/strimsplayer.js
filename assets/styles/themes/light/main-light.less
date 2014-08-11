@@ -1,0 +1,216 @@
+@import 'variables.less';
+
+body,
+html {
+    height: 100%;
+}
+
+.page-holder {
+    font-family: @font-lato;
+}
+
+#video_player {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.video-holder {
+    width: 100%;
+}
+
+.vjs-light-theme-skin {
+    &:extend(.vjs-default-skin);
+
+    .vjs-big-play-button {
+        top: 50% !important;
+        left: 50% !important;
+        margin-left: -45px;
+        margin-top: -45px;
+        border-radius: 45px !important;
+        background-color: @c2 !important;
+        width: 90px !important;
+        height: 90px !important;
+        opacity: 0.8 !important;
+
+        &:before {
+            line-height: 85px !important;
+        }
+    }
+}
+
+.vjs-youtube .vjs-poster {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+#strimheader {
+    h1 {
+        margin-top: 0;
+        margin-left: 25px;
+        font-family: @museo;
+        color: @color-strong;
+    }
+
+    @media screen and (max-width: @breakpoint-md) {
+        margin-top: 40px;
+    }
+}
+
+.playlist-components {
+    ul {
+        padding: 0;
+        list-style: none;
+
+        li {
+            position: relative;
+            font-family: @font-lato;
+            font-weight: 400;
+
+            &:hover {
+                background-color: @color-bg-hover;
+                .remove-from-playlist {
+                    opacity: 1;
+                }
+            }
+            &.active {
+                .remove-from-playlist {
+                    display: none;
+                }
+
+                .song-title {
+                    background-color: @color-bg;
+                    color: @color-list-selected;
+                    margin-left: 0;
+                    padding-left: 25px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .remove-from-playlist {
+        width: 16px;
+        height: 16px;
+        font-size: 0;
+        background-image: url(themes/light/img/prohibited1.svg);
+        background-size: 20px;
+        background-repeat: no-repeat;
+        display: inline-block;
+        overflow: hidden;
+        opacity: 0.1;
+        vertical-align: top;
+        position: absolute;
+        margin-top: 10px;
+    }
+    .song-title {
+        margin-left: 25px;
+        display: inline-block;
+        color: @color-list;
+        text-decoration: none;
+        display: block;
+        width: calc(~"100% - 25px");
+        padding: 10px 40px 10px 0;
+
+        &:hover {
+            color: darken(@color-list, 30%);
+        }
+    }
+}
+
+#block_with_scroll {
+    height: 0;
+    padding-bottom: 95%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+
+    @media screen and (max-width: @breakpoint-md) {
+        height: 300px;
+        padding-bottom: 0;
+    }
+}
+
+.button-holder {
+    margin-top: 30px;
+    margin-left: 25px;
+
+    .btn {
+        margin-right: 20px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-repeat: no-repeat;
+        background-size: 30px;
+
+        &.btn-prev {
+            background-image: url(themes/light/img/rew.svg);
+            background-position: 10px 50%;
+            padding-right: 20px;
+        }
+
+        &.btn-next {
+            background-image: url(themes/light/img/fwd.svg);
+            background-position: right 10px top 50%;
+            padding-left: 20px;
+        }
+    }
+}
+
+.songinfo {
+    margin-top: 10px;
+
+    .content_voting {
+        display: inline-block;
+        vertical-align: top;
+        width: 30px;
+    }
+    //TODO: at the moment there are two classes: 'songtitle' and 'song-title'
+    //after the theme has been accepted we should look into it
+    .songtitle {
+        display: inline-block;
+        font-family: @museo;
+        margin: 0 0 0 5px;
+        padding: 7px 0 5px 0;
+        width: calc(~"100% - 60px");
+    }
+
+    .content_inner {
+        margin-top: -6px;
+        margin-left: 40px;
+
+        a {
+            color: @color-links;
+        }
+    }
+    .strimlink {
+        display: block;
+    }
+}
+
+.content_vote_wrapper {
+    width: 100%;
+    margin-top: 5px;
+    &:first-child {
+        margin-top: 0;
+    }
+    .content_vote_count {
+        width: 100%;
+        display: block;
+        text-align: center;
+        color: white;
+        font-size: 10px;
+    }
+    .upvotes {
+        background-color: fade(@color-uv, 80%);
+    }
+
+    .downvotes {
+        background-color: fade(@color-dv, 80%);
+    }
+}
+
+.footer {
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
