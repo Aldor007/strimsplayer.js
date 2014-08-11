@@ -6,7 +6,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.songData = {};
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
-        $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
 
         $scope.$on('$viewContentLoaded', $scope.doInit);
@@ -18,6 +17,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             $scope.player.dispose();
             delete $scope.player;
         }
+        $scope.playlistContainer = $("#block_with_scroll");
+
         $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
         /*** PLAYER ****/
         $scope.player.on('next', function(e){

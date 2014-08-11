@@ -15,9 +15,7 @@ module.exports = function(grunt) {
 	grunt.config.set('less', {
 		dev: {
         options: {
-            paths: ['bower_components/*/less'],
-        	sourceMap: true,
-            sourceMapFilename: 'importer.css.map',
+          paths: ['bower_components/*/less']
         },
 			files: [{
 				expand: true,
