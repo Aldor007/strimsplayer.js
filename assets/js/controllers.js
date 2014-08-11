@@ -89,7 +89,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         var selected = $scope.playlistContainer.find("ul li").eq($scope.activeIndex);
         var offset;
         if (selected.length > 0) {
-            offset = selected.position().top + $scope.playlistContainer.scrollTop();
+            offset = selected.position().top + $scope.playlistContainer.scrollTop() - $scope.playlistContainer.position().top;
             $scope.playlistContainer.animate({scrollTop: offset}, 300);
         }
     };

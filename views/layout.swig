@@ -89,8 +89,8 @@
     <!-- Footer
     ================================================== -->
     <footer class="footer">
-      <div class="container">
-      &copy 2014 <a href="http://strims.pl/u/Aldor">Aldor</a>
+      <div class="container-fluid">
+      &copy; 2014 <a href="http://strims.pl/u/Aldor">Aldor</a>
       </div>
     </footer>
 
