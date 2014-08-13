@@ -1,9 +1,9 @@
 'use strict';
 
-app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'SongData',
-    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, SongData) {
+app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'songData',
+    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData) {
         $scope.songs = [];
-        $scope.songData = SongData.info;
+        $scope.songData = songData.info;
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
         // $scope.strimName = "Wszystkie strimy";
@@ -81,7 +81,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.player.error(null);
         $scope.activeIndex = $scope.player.pl.current;
         //$scope.
-        SongData.info = $scope.songs[$scope.activeIndex];
+        songData.info = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
         if (doScroll === true) {
             $scope.updatePlaylistPosition();
@@ -146,7 +146,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 return result;
             };
             //$scope.
-            SongData.info = songs[0];
+            songData.info = songs[0];
             if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {
@@ -166,7 +166,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             }
 
             //$scope.saveApply($scope.songData);
-            $scope.saveApply(SongData.info);
+            $scope.saveApply(songData.info);
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
             $scope.saveApply($scope.player)
@@ -229,10 +229,9 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     };
 }]);
 
-app.controller('SongInfoCtrl', ['$scope', 'SongData',
-    function ($scope, SongData) {
-        var sd = SongData
-        $scope.songData = SongData;
+app.controller('SongInfoCtrl', ['$scope', 'songData',
+    function ($scope, songData) {
+        $scope.songData = songData;
 
     }
 ]);

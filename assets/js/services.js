@@ -119,7 +119,7 @@ app.factory('alertService',['$rootScope',
     return alertService;
 }]);
 
-app.factory("SongData", function () {
+app.factory("songData", function () {
     var bindable = {};
     return {
         info: bindable
