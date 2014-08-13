@@ -105,7 +105,7 @@
                 <div class="content_inner">
                     <span class="date" title="[[songData.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
                     <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.info.user]]</a></span>
-                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.strim.slug]]">[[songData.info.sinfo.trim.name]]</a>.</span>
+                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.strim.slug]]">[[songData.info.strim.name]]</a>.</span>
                     <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]">Zobacz na strimsie </a></span>
                  </div>
 
@@ -120,7 +120,7 @@
     ================================================== -->
     <footer class="footer">
       <div class="container-fluid">
-      &copy; 2014 <a href="http://strims.pl/u/Aldor">Aldor</a>
+      &copy; 2014 <a href="http://strims.pl/u/Aldor">Aldor</a> (light theme by strah)
       </div>
     </footer>
 

@@ -2,6 +2,7 @@
 
 app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'songData',
     function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData) {
+        var videoPlayerId = 'video_player';
         $scope.songs = [];
         $scope.songData = songData.info;
         $scope.activeIndex = 0;
@@ -10,11 +11,12 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
 
         $scope.playlistContainer = $("#block_with_scroll");
 
-        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
+        $scope.player = videojs(videoPlayerId, {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
         /*** PLAYER ****/
+
         $scope.player.on('next', function(e){
-          $scope.updateActiveVideo();
-          $scope.player.play();
+            $scope.updateActiveVideo();
+            $scope.player.play();
         });
 
         $scope.player.on('prev', function(e){
@@ -23,7 +25,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         });
         $scope.player.on('error', function(event) {
             var messages = {
-                        // MEDIA_ERR_ABORTED
+                // MEDIA_ERR_ABORTED
                 1: "The video download was cancelled",
                 // MEDIA_ERR_NETWORK
                 2: "The video connection was lost, please confirm you're connected to the internet",
@@ -50,7 +52,14 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             var clicked = $event.target;
             $scope.player[clicked.id]();
         };
-    /**** END PLAYER  ***/
+        /**** END PLAYER  ***/
+        // hack for player
+        // when switching strims the player is not being stopped before the change
+        // therefore 'poster' and play btn remain hidden
+        //TODO: do it properly
+
+        document.querySelectorAll('#' + videoPlayerId + ' .vjs-poster')[0].style.display = 'block';
+        document.querySelectorAll('#' + videoPlayerId + ' .vjs-big-play-button')[0].style.display = 'block';
 
     $scope.removeFromPlaylist = function($id) {
         if ($scope.activeIndex > $id) {
