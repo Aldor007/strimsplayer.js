@@ -1,22 +1,13 @@
 'use strict';
 
-app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService',
-    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService) {
+app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'SongData',
+    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, SongData) {
         $scope.songs = [];
-        $scope.songData = {};
+        $scope.songData = SongData.info;
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
         // $scope.strimName = "Wszystkie strimy";
 
-        $scope.$on('$viewContentLoaded', $scope.doInit);
-
-    $scope.doInit = function(e) {
-        //we run this function every time the view has updated
-        //we don't want a new player to be added every time
-        if ($scope.player) {
-            $scope.player.dispose();
-            delete $scope.player;
-        }
         $scope.playlistContainer = $("#block_with_scroll");
 
         $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
@@ -60,7 +51,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             $scope.player[clicked.id]();
         };
     /**** END PLAYER  ***/
-    };
 
     $scope.removeFromPlaylist = function($id) {
         if ($scope.activeIndex > $id) {
@@ -90,7 +80,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.player.error_ = null;
         $scope.player.error(null);
         $scope.activeIndex = $scope.player.pl.current;
-        $scope.songData = $scope.songs[$scope.activeIndex];
+        //$scope.
+        SongData.info = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
         if (doScroll === true) {
             $scope.updatePlaylistPosition();
@@ -101,7 +92,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         var selected = $scope.playlistContainer.find("ul li").eq($scope.activeIndex);
         var offset;
         if (selected.length > 0) {
-            offset = selected.position().top + $scope.playlistContainer.scrollTop() - $scope.playlistContainer.position().top;
+            offset = selected.position().top + $scope.playlistContainer.scrollTop();// - $scope.playlistContainer.position().top;
             $scope.playlistContainer.animate({scrollTop: offset}, 300);
         }
     };
@@ -154,7 +145,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 }
                 return result;
             };
-            $scope.songData = songs[0];
+            //$scope.
+            SongData.info = songs[0];
             if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {
@@ -173,7 +165,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 $scope.player.addVideosEx(parseToPlay(songs));
             }
 
-            $scope.saveApply($scope.songData);
+            //$scope.saveApply($scope.songData);
+            $scope.saveApply(SongData.info);
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
             $scope.saveApply($scope.player)
@@ -235,6 +228,14 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     $scope.status.isopen = !$scope.status.isopen;
     };
 }]);
+
+app.controller('SongInfoCtrl', ['$scope', 'SongData',
+    function ($scope, SongData) {
+        var sd = SongData
+        $scope.songData = SongData;
+
+    }
+]);
 
 app.controller('RootCtrl', ['$rootScope', 'alertService',
     function ($rootScope, alertService) {

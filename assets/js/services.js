@@ -114,8 +114,14 @@ app.factory('alertService',['$rootScope',
         $rootScope.alerts = [];
         $rootScope.showInfo = false;
     }
-    
+
 
     return alertService;
 }]);
 
+app.factory("SongData", function () {
+    var bindable = {};
+    return {
+        info: bindable
+    }
+});

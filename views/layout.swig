@@ -84,8 +84,36 @@
     </div>
 {% block content %}
 <div class="container-fluid page-holder" ng-controller="PlayerCtrl">
-    <ng-view>
-    </ng-view>
+    <div class="video-container" >
+        <div id="videoP" class="col-md-8">
+            <div class="row video-holder">
+                <video id="video_player" src="" class="video-js vjs-default-skin vjs-light-theme-skin" controls preload="auto"   data-setup='{ "techOrder": [ "soundcloud", "youtube", "dailymotion", "vimeo"],
+                 "soundcloudClientId": "6132bb5a168d685a9bb97f4efc5f8e18",
+                "src": "" }'>
+                </video>
+            </div>
+            <div class="row songinfo" ng-controller="SongInfoCtrl">
+                <div class="content_voting">
+                    <div class="content_vote_wrapper">
+                        <span class="content_vote_count upvotes">[[songData.info.upvotes]]</span>
+                    </div>
+                    <div class=content_vote_wrapper>
+                        <span class="content_vote_count downvotes">[[songData.info.downvotes]]</span>
+                    </div>
+                </div>
+                <h3 class="songtitle">[[songData.info.title]]</h3>
+                <div class="content_inner">
+                    <span class="date" title="[[songData.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
+                    <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.info.user]]</a></span>
+                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.strim.slug]]">[[songData.info.sinfo.trim.name]]</a>.</span>
+                    <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]">Zobacz na strimsie </a></span>
+                 </div>
+
+             </div>
+        </div>
+        <ng-view>
+        </ng-view>
+    </div>
 </div>
 {% endblock %}
     <!-- Footer
