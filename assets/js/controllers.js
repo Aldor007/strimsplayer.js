@@ -155,7 +155,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 return result;
             };
             //$scope.
-            songData.info = songs[0];
+            songData.info = songData.info || songs[0];
             if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {

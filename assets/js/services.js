@@ -120,7 +120,7 @@ app.factory('alertService',['$rootScope',
 }]);
 
 app.factory("songData", function () {
-    var bindable = {};
+    var bindable = null;
     return {
         info: bindable
     }
