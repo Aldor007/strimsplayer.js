@@ -3,7 +3,7 @@
 app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService',
     function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService) {
         $scope.songs = [];
-        $scope.songData = {};
+        $scope.songData = null;
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
         $scope.playlistContainer = $("#block_with_scroll");
@@ -142,7 +142,9 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 }
                 return result;
             };
-            $scope.songData = songs[0];
+            if (!$scope.songData) {
+                $scope.songData = songs[0];
+            }
             if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {
