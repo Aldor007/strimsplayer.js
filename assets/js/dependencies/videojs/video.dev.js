@@ -3913,11 +3913,16 @@ vjs.Player.prototype.remainingTime = function(){
  * @return {Object} A mock TimeRange object (following HTML spec)
  */
 vjs.Player.prototype.buffered = function(){
-  var buffered = this.techGet('buffered'),
-      start = 0,
-      buflast = buffered.length - 1,
+  var buffered = this.techGet('buffered');
+  var start = 0;
+  var buflast = 0;
+    // if (buffered)
+    if (buffered === undefined) {
+        return vjs.createTimeRange(start, 0);
+    }
+      buflast = buffered.length - 1;
       // Default end to 0 and store in values
-      end = this.cache_.bufferEnd = this.cache_.bufferEnd || 0;
+      var end = this.cache_.bufferEnd = this.cache_.bufferEnd || 0;
 
   if (buffered && buflast >= 0 && buffered.end(buflast) !== end) {
     end = buffered.end(buflast);

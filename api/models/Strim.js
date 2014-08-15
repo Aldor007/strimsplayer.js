@@ -8,9 +8,6 @@
 module.exports = {
 
   attributes: {
-        lastupdate: {
-             type: 'datetime',
-           },
         name: {
             type: 'string',
             required: true,
@@ -19,10 +16,11 @@ module.exports = {
         slug: {
             type: 'string',
             unique: true
-        
+
         },
         songs: {
-            via: 'song'
+            collection: 'song',
+            via: 'strim'
         },
 
   },
@@ -31,7 +29,6 @@ module.exports = {
                   .replace(/ /g,'-')
                           .replace(/[^\w-]+/g,'');
       values.slug = tmp;
-      values.lastupdate = new Date();
       next();
   }
 };

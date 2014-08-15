@@ -7,8 +7,7 @@
 <meta name="author" content="Aldor">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!--STYLES-->
-<link rel="stylesheet" href="/styles/importer.css">
-<link rel="stylesheet" href="/styles/video-js.css">
+<link rel="stylesheet" href="/min/production.min.css">
 <!--STYLES END-->
 {% block stylesheet %}{% endblock %}
 {% block extra_head %}{% endblock %}
@@ -103,9 +102,9 @@
                 </div>
                 <h3 class="songtitle">[[songData.info.title]]</h3>
                 <div class="content_inner">
-                    <span class="date" title="[[songData.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
-                    <span class="user"><a href="http://strims.pl/u/[[songData.user]]">@[[songData.info.user]]</a></span>
-                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.strim.slug]]">[[songData.info.strim.name]]</a>.</span>
+                    <span class="date" title="[[songData.info.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
+                    <span class="user"><a href="http://strims.pl/u/[[songData.info.user]]">@[[songData.info.user]]</a></span>
+                    <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.info.strim.slug]]">[[songData.info.strim.name]]</a>.</span>
                     <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]">Zobacz na strimsie </a></span>
                  </div>
 
@@ -126,21 +125,7 @@
 
 
 <!--SCRIPTS-->
-<script src="/js/dependencies/aaajquery-1.11.1.min.js"></script>
-<script src="/js/dependencies/angular/angular.min.js"></script>
-<script src="/js/dependencies/angular/zangular-route.min.js"></script>
-<script src="/js/dependencies/angular/zzng-infinite-scroll.min.js"></script>
-<script src="/js/dependencies/ui-bootstrap.min.js"></script>
-<script src="/js/dependencies/videojs/uri.min.js"></script>
-<script src="/js/dependencies/videojs/video.dev.js"></script>
-<script src="/js/dependencies/videojs/videojs-playlists.js"></script>
-<script src="/js/dependencies/videojs/vjs.soundcloud.js"></script>
-<script src="/js/dependencies/videojs/vjs.vimeo.js"></script>
-<script src="/js/dependencies/videojs/youtube.js"></script>
-<script src="/js/dependencies/zzui-bootstrap-tpls.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/controllers.js"></script>
-<script src="/js/services.js"></script>
+<script src="/min/production.min.js"></script>
 <!--SCRIPTS END-->
 {% block javascript %}{% endblock %}
 

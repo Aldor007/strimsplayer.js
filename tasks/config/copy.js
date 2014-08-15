@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 				expand: true,
                 nonull: true,
 				cwd: './assets/styles/',
-				src: ['font/*'],
+				src: ['font/*', '**/*'],
 				dest: '.tmp/public/min'
             }
             ]
