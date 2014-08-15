@@ -1,18 +1,22 @@
 'use strict';
 
-app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService',
-    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService) {
+app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'songData',
+    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData) {
+        var videoPlayerId = 'video_player';
         $scope.songs = [];
-        $scope.songData = {};
+        $scope.songData = songData.info;
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
-        $scope.playlistContainer = $("#block_with_scroll");
         // $scope.strimName = "Wszystkie strimy";
-        $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
+
+        $scope.playlistContainer = $("#block_with_scroll");
+
+        $scope.player = videojs(videoPlayerId, {'techOrder': ['youtube', 'soundcloud', 'vimeo' ], 'autoplay': false, 'ytcontrols': false, 'src': 'https://www.youtube.com/watch?v=xIc1iFoVTv0'});
         /*** PLAYER ****/
+
         $scope.player.on('next', function(e){
-          $scope.updateActiveVideo();
-          $scope.player.play();
+            $scope.updateActiveVideo();
+            $scope.player.play();
         });
 
         $scope.player.on('prev', function(e){
@@ -21,7 +25,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         });
         $scope.player.on('error', function(event) {
             var messages = {
-                        // MEDIA_ERR_ABORTED
+                // MEDIA_ERR_ABORTED
                 1: "The video download was cancelled",
                 // MEDIA_ERR_NETWORK
                 2: "The video connection was lost, please confirm you're connected to the internet",
@@ -48,7 +52,14 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             var clicked = $event.target;
             $scope.player[clicked.id]();
         };
-    /**** END PLAYER  ***/
+        /**** END PLAYER  ***/
+        // hack for player
+        // when switching strims the player is not being stopped before the change
+        // therefore 'poster' and play btn remain hidden
+        //TODO: do it properly
+
+        document.querySelectorAll('#' + videoPlayerId + ' .vjs-poster')[0].style.display = 'block';
+        document.querySelectorAll('#' + videoPlayerId + ' .vjs-big-play-button')[0].style.display = 'block';
 
     $scope.removeFromPlaylist = function($id) {
         if ($scope.activeIndex > $id) {
@@ -78,7 +89,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.player.error_ = null;
         $scope.player.error(null);
         $scope.activeIndex = $scope.player.pl.current;
-        $scope.songData = $scope.songs[$scope.activeIndex];
+        //$scope.
+        songData.info = $scope.songs[$scope.activeIndex];
         $scope.saveApply($scope.activeIndex);
         if (doScroll === true) {
             $scope.updatePlaylistPosition();
@@ -89,7 +101,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         var selected = $scope.playlistContainer.find("ul li").eq($scope.activeIndex);
         var offset;
         if (selected.length > 0) {
-            offset = selected.position().top + $scope.playlistContainer.scrollTop();
+            offset = selected.position().top + $scope.playlistContainer.scrollTop();// - $scope.playlistContainer.position().top;
             $scope.playlistContainer.animate({scrollTop: offset}, 300);
         }
     };
@@ -142,7 +154,8 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 }
                 return result;
             };
-            $scope.songData = songs[0];
+            //$scope.
+            songData.info = songData.info || songs[0];
             if (after == 0) { //first run of funciton,
                 $scope.songs = songs;
                 if ($scope.player) {
@@ -160,10 +173,9 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                     $scope.songs.push(songs[i]);
                 $scope.player.addVideosEx(parseToPlay(songs));
             }
-            var width = document.getElementById('video_player').parentElement.offsetWidth;
-            $scope.player.width(width).height(width * 9/16);
 
-            $scope.saveApply($scope.songData);
+            //$scope.saveApply($scope.songData);
+            $scope.saveApply(songData.info);
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
             $scope.saveApply($scope.player)
@@ -225,6 +237,13 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     $scope.status.isopen = !$scope.status.isopen;
     };
 }]);
+
+app.controller('SongInfoCtrl', ['$scope', 'songData',
+    function ($scope, songData) {
+        $scope.songData = songData;
+
+    }
+]);
 
 app.controller('RootCtrl', ['$rootScope', 'alertService',
     function ($rootScope, alertService) {
