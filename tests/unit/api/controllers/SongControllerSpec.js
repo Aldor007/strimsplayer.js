@@ -1,5 +1,5 @@
-var SongController = require('../../../api/controllers/SongController.js');
-var Song = require('../../../api/models/Song.js');
+var SongController = require('../../../../api/controllers/SongController.js');
+var Song = require('../../../../api/models/Song.js');
 
 describe('SongsController', function() {
     var request;
@@ -143,7 +143,7 @@ describe('SongsController', function() {
                         domain: 'youtube',
                         title: 'Test'
                     }
-            
+
             ]};
 
             GLOBAL.Strim.findOneBySlug = jasmine.createSpy('Strim.findOneBySlug').andCallFake(function (slug, callback) {
@@ -173,7 +173,7 @@ describe('SongsController', function() {
                         domain: 'youtube.com',
                         title: 'Test'
                     }
-            
+
             ]};
             var expected = {soundtrack: {added: 0, error: 2, incorectDomain: 0}, test: {added: 0, error: 1, incorectDomain: 0}}
             GLOBAL.Strim.findOneBySlug = jasmine.createSpy('Strim.findOneBySlug').andCallFake(function (slug, callback) {
@@ -208,7 +208,7 @@ describe('SongsController', function() {
                         domain: 'soundcloud.com',
                         title: 'Test'
                     }
-            
+
             ]};
             var expected = {soundtrack: {added: 2, incorectDomain: 0, error: 0}, test: {added: 1, incorectDomain: 0, error: 0}}
             GLOBAL.Strim.findOneBySlug = jasmine.createSpy('Strim.findOneBySlug').andCallFake(function (slug, callback) {
@@ -243,7 +243,7 @@ describe('SongsController', function() {
                         domain: 'soundcloud.com',
                         title: 'Test'
                     }
-            
+
             ]};
             var expected = {soundtrack: {added: 1, error: 0, incorectDomain: 1}, test: {added: 1, error:0, incorectDomain: 0}};
             GLOBAL.Strim.findOneBySlug = jasmine.createSpy('Strim.findOneBySlug').andCallFake(function (slug, callback) {
@@ -487,7 +487,7 @@ describe('SongsController', function() {
             expect(response.json).toHaveBeenCalledWith([{id: 5}, {id: 6}]);
 
         });
-        
+
     });
 
 });

@@ -1,5 +1,5 @@
-var StrimController = require('../../../api/controllers/StrimController.js');
-var Strim = require('../../../api/models/Strim.js');
+var StrimController = require('../../../../api/controllers/StrimController.js');
+var Strim = require('../../../../api/models/Strim.js');
 var rewire = require('rewire');
 
 describe('StrimsController', function() {
@@ -64,7 +64,7 @@ describe('StrimsController', function() {
         });
     });
     describe('StrimController.add', function() {
-        var strimControllerRewire = rewire('../../../api/controllers/StrimController.js');
+        var strimControllerRewire = rewire('../../../../api/controllers/StrimController.js');
         var requestMock;
         var StrimControllerR;
         beforeEach(function() {
