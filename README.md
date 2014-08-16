@@ -52,7 +52,7 @@ node app.js --prod
 ### Testy jednostkowe (unit tests)
 Uruchomienie testów
 ```bash
-jasmine-node --verbose tests/
+jasmine-node --verbose tests/unit/
 ```
 Pokrycie kodu testami
 ```bash
