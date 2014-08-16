@@ -98,12 +98,12 @@ app.factory('alertService',['$rootScope',
             msg = msg.message || msg;
         }
         var obj = {'type': type, 'msg': msg};
-         for (var i = 0, len = $rootScope.alerts.length; i < len; i++) {
-            if ($rootScope.alerts[i].msg == obj.msg) {
-               console.error("This alert is in front!");
-               return true;
-             }
-        }
+        //  for (var i = 0, len = $rootScope.alerts.length; i < len; i++) {
+        //     if ($rootScope.alerts[i].msg == obj.msg) {
+        //        console.error("This alert is in front!");
+        //        return true;
+        //      }
+        // }
         $rootScope.alerts.push(obj);
         $rootScope.showInfo = true;
         saveApply($rootScope, $rootScope.alerts);
