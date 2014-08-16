@@ -14,14 +14,15 @@ sudo apt-get install mysql-server
 sudo apt-get install redis-server
 sudo npm install -g bower
 sudo npm install -g jasmine-node@1.14.2
+sudo npm install -g protractor
 ```
 lub
 ```bash
 ./install.sh
 ```
-# Konfiguracja 
+# Konfiguracja
 
-Aplikacja do działania potrzebuje bazy danych. Baza może być plikowa lub MySQL. 
+Aplikacja do działania potrzebuje bazy danych. Baza może być plikowa lub MySQL.
 Konfiguracja bazy znajduje się w pliku config/connections.js a sam wybór rodzaju bazy w config/models.js,
 
 ### Baza plikowa
@@ -31,7 +32,7 @@ Aby aplikacja korzystała z bazy plikowej należy zmodyfikować pliki config/mod
 ```
 Baza plikow jest najwygodniejsza w dewelopowaniu.
 ### Baza MySQL
-Aby aplikacja działał z bazą MySQL należy ustawić w envie dane do polączenie do bazy.
+Aby aplikacja działała z bazą MySQL należy ustawić w envie dane do polączenie do bazy.
 ```
 export MYSQL_USER='test'
 export MYSQL_DB='strimsplayer'
@@ -48,6 +49,7 @@ node app.js --prod
 ```
 
 #Testy
+### Testy jednostkowe (unit tests)
 Uruchomienie testów
 ```bash
 jasmine-node --verbose tests/
@@ -58,6 +60,19 @@ sudo npm install -g istanbul
 istanbul cover jasmine-node --verbose tests
 # generowanie html-a w coverage/lcov-report
 istanbul report
+```
+### Testy funkcjonalne
+Przygotowanie:
+```
+webdriver-manager update
+```
+Uruchomienie:
+```
+webdriver-manager start
+```
+w nowym oknie:
+```
+protractor tests/functional/conf.js
 ```
 
 # Pobieranie wideo
