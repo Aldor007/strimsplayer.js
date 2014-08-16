@@ -46,10 +46,10 @@ module.exports = {
 
             });
         };
-        var strimName = req.param('name').toLowerCase();
+        var strimName = req.param('name');
         sails.log.info('StrimController/add called with strimName=' + strimName);
         var errorRes = {};
-        request( {url:'http://strims.pl/s/'+strimName + '?filtr=video',
+        request( {url:'http://strims.pl/s/'+strimName.toLowerCase() + '?filtr=video',
                     followRedirect: false,
                     timeout: 1000
                 }, function (error, response, body) {
@@ -68,7 +68,7 @@ module.exports = {
                             errorRes.message = "Strims.pl nie odpowiedział w czasie.";
                             errorRes.status  = 504;
                         } else {
-                            errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
+                            errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName + " na strims.pl";
                             sails.log.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
                             sails.log.info('StrimController/add strimspl status = ' + response.statusCode);
                             errorRes.status = 404;

@@ -80,7 +80,7 @@ describe('StrimsController', function() {
             });
             request.param.andReturn('niema');
             StrimControllerR.add(request, response);
-            expect(response.json).toHaveBeenCalledWith({message: 'Nie znaleziono strimu o nazwie niema', status: 404}, 404);
+            expect(response.json).toHaveBeenCalledWith({message: 'Nie znaleziono strimu o nazwie niema na strims.pl', status: 404}, 404);
 
         });
         it('should return 504 if strim.pl not respond in time', function () {
