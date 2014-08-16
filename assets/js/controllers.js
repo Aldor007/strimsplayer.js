@@ -232,9 +232,9 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
     };
 
     $scope.toggleDropdown = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.status.isopen = !$scope.status.isopen;
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
     };
 }]);
 
@@ -264,6 +264,9 @@ app.controller('FormCtrl', ['$scope', '$http', 'strimsplayer', 'alertService',
                         return alertService.setAlert('danger', err);
                     }
                     alertService.setAlert('info', 'Strim dodany!');
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
                 });
 
             }
