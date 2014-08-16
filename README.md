@@ -1,3 +1,4 @@
+
 # strimsplayer
 
 Module | Status
@@ -7,6 +8,9 @@ Module | Status
 **Website** |  [strimsplayer.pl/](http://strimsplayer.pl/)
 **Strims** | [strims.pl/s/strimsplayer](http://strims.pl/s/strimsplayer)
 ---
+
+[![Build Status](http://j.marcinkaciuba.pl/buildStatus/icon?job=strimsplayer.js)](http://j.marcinkaciuba.pl/job/strimsplayer.js/)
+
 # Instalacja zależności
 ```bash
 sudo apt-get install nodejs
