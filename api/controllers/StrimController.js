@@ -33,7 +33,7 @@ module.exports = {
                     sails.log.error('StrimyController/add error', err);
                     return res.json({status:  err.status, message: 'Strim istnieje!'}, err.status);
                 }
-                console.info('StrimyController/add 200 added strim  strimName=' + strimName);
+                sails.log.info('StrimyController/add 200 added strim  strimName=' + strimName);
                 request({url: 'http://' + sails.config.cliapi.HostAndPORT + '/songscollectorfromstrim/'+ strimName}, function(errorUpdate, response, body) {
                     if (errorUpdate) {
                         sails.log.error('StrimController/add error updating songs ', errorUpdate);
@@ -46,26 +46,34 @@ module.exports = {
 
             });
         };
-        var strimName = req.param('name');
+        var strimName = req.param('name').toLowerCase();
         sails.log.info('StrimController/add called with strimName=' + strimName);
         var errorRes = {};
         request( {url:'http://strims.pl/s/'+strimName + '?filtr=video',
                     followRedirect: false,
-                    timeout: 500
+                    timeout: 1000
                 }, function (error, response, body) {
-                  if (!error && response.statusCode === 200) {
+                    if (!error && response.statusCode === 200) {
                         if (body.indexOf('<p>Nie znaleziono treści.</p>') === -1) {
                             saveStrim(strimName);
                         }
                         else {
                             errorRes.message = "Nie znaleziono filmów na "+ strimName;
-                            console.info('StrimController/add 404 Not propert strim  strimName=' + strimName);
+                            sails.log.info('StrimController/add 404 Not propert strim  strimName=' + strimName);
                             res.json(errorRes, 404);
                         }
                     } else {
-                        errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
-                        console.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
-                        res.json(errorRes, 404);
+                        if (error) {
+                            sails.log.info('StrimController/add 504 strims.pl timeout strim=' + strimName);
+                            errorRes.message = "Strims.pl nie odpowiedział w czasie.";
+                            errorRes.status  = 504;
+                        } else {
+                            errorRes.message = "Nie znaleziono strimu o nazwie "+ strimName;
+                            sails.log.info('StrimController/add 404 Not Found strim with strimName=' + strimName);
+                            sails.log.info('StrimController/add strimspl status = ' + response.statusCode);
+                            errorRes.status = 404;
+                        }
+                        res.json(errorRes, errorRes.status);
                     }
 
                 });
