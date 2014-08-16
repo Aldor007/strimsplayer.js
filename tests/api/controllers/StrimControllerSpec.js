@@ -71,17 +71,27 @@ describe('StrimsController', function() {
             requestMock = jasmine.createSpy('request');
             strimControllerRewire.__set__('request', requestMock);
             StrimControllerR = strimControllerRewire;//.StrimController;
-            
+
         });
         it('should return 404 if strim not found on strims.pl', function () {
+            requestMock.andCallFake(function (options, callback) {
+                expect(options.followRedirect).toBe(false);
+                callback(null, true);
+            });
+            request.param.andReturn('niema');
+            StrimControllerR.add(request, response);
+            expect(response.json).toHaveBeenCalledWith({message: 'Nie znaleziono strimu o nazwie niema', status: 404}, 404);
+
+        });
+        it('should return 504 if strim.pl not respond in time', function () {
             requestMock.andCallFake(function (options, callback) {
                 expect(options.followRedirect).toBe(false);
                 callback(true);
             });
             request.param.andReturn('niema');
             StrimControllerR.add(request, response);
-            expect(response.json).toHaveBeenCalledWith({message: 'Nie znaleziono strimu o nazwie niema'}, 404);
-        
+            expect(response.json).toHaveBeenCalledWith({message: 'Strims.pl nie odpowiedział w czasie.', status: 504}, 504);
+
         });
         it('should return 404 if on strim not found video', function () {
             requestMock.andCallFake(function (options, callback) {
@@ -91,7 +101,7 @@ describe('StrimsController', function() {
             request.param.andReturn('niema');
             StrimControllerR.add(request, response);
             expect(response.json).toHaveBeenCalledWith({message: 'Nie znaleziono filmów na niema' }, 404);
-        
+
         });
         it('should return 500 if error adding strim to DB', function () {
             requestMock.andCallFake(function (options, callback) {
@@ -108,7 +118,7 @@ describe('StrimsController', function() {
 
             StrimControllerR.add(request, response);
             expect(response.json).toHaveBeenCalledWith({status: 500, message: 'Strim istnieje!'}, 500);
-        
+
         });
         it('should return 200  if ok', function () {
             requestMock.andCallFake(function (options, callback) {
@@ -131,7 +141,7 @@ describe('StrimsController', function() {
             expect(response.json).toHaveBeenCalledWith({status: 200, message: 'Strim ' + 'jest' + 'dodany'}, 200);
         });
 
-    
+
     });
 
     });
