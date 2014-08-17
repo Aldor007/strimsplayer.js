@@ -78,6 +78,7 @@ w nowym oknie:
 ```
 protractor tests/functional/conf.js
 ```
+Żeby uruchomić wszystkie testy (jednostkowe i funkcjonalne) bez konieczności ręcznego uruchamiania selenium wystarczy uruchomić skrypt `./runtests.sh`
 
 # Pobieranie wideo
 Zakładając, że aplikacja działa na localhost:1337 należy dodać strim do bazy  i uruchomić:
