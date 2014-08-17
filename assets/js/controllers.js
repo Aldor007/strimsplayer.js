@@ -4,7 +4,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
     function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData) {
         var videoPlayerId = 'video_player';
         $scope.songs = [];
-        $scope.songData = songData.info;
+        $scope.songData = songData.info = null;
         $scope.activeIndex = 0;
         $scope.thereAreMoreSongs = true;
         // $scope.strimName = "Wszystkie strimy";

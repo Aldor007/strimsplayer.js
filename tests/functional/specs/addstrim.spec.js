@@ -1,6 +1,6 @@
 describe('strimsplayer "Dodaj strim" page', function() {
     var header = element(by.css('.navbar'));
-    var dropdown = header.element(by.css('.dropdown'));
+    var dropdown = header.element(by.css('.hidden-xs .dropdown'));
     var container = element(by.css('[ng-controller=FormCtrl]'));
     var form = container.element(by.tagName('form'));
     var input = form.element(by.tagName('input'));
@@ -9,6 +9,8 @@ describe('strimsplayer "Dodaj strim" page', function() {
 
     beforeEach(function() {
         browser.get('http://localhost:1337/dodaj/strim');
+        browser.driver.manage().window().setPosition(0, 0);
+        browser.driver.manage().window().setSize(1280, 700);
     });
     it('should have a title', function() {
         expect(browser.getTitle()).toEqual('Dodaj strim | strimsplayer.pl');
