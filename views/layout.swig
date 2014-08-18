@@ -12,8 +12,6 @@
 {% block stylesheet %}{% endblock %}
 {% block extra_head %}{% endblock %}
 
-<script src="http://connect.soundcloud.com/sdk.js"></script>
-<script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
