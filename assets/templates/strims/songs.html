@@ -8,18 +8,23 @@
                 <div class="playlist-components" >
                     <div id="block_with_scroll" class="playlist">
                         <ul infinite-scroll="getMoreSongs()" infinite-scroll-distance="3" infinite-scroll-parent='true' infinite-scroll-containter="#block_with_scroll">
-                                <li ng-repeat="song in songs" ng-class="{'active':$index == activeIndex}" >
+                                <li ng-repeat="song in songs | orderBy:predicate:reverse" ng-class="{'active':$index == activeIndex}" >
                                   <a ng-click="removeFromPlaylist($index)" class="remove-from-playlist" title="Usuń z listy">usuń</a>
                                   <a ng-click="select($index)" data-videoplaylist="[[$index]]" song-id="[[song.domain_url]]" class="song-title" >[[song.title]]</a>
                                 </li>
                             </ul>
                     </div>
                     <div class="button-holder row">
+                    Sortowanie po: 
+                        <a href="" ng-click="order('-upvotes', reverse=!reverse)">^</a>Upvotes</th>
+                        <a href="" ng-click="order('-title', reverse=!reverse)">^</a>Alfabetycznie</th>
+                        <a href="" ng-click="order('-date',reverse=!reverse)">^</a>Datcie</th>
+
+                    </div>
+                    <div class="button-holder row">
                         <a id="prev" class="btn btn-default btn-prev" alt="Previous video" src="img/Previous.png" ng-click="nextOrPrev($event)">Prev</a>
-                       <!-- <a id="shufle" ng-click="shufle()">Prev</a>
-                       <a id="shufle" ng-click="shufle()">AutoPlayv</a> -->
                         <a id="next" class="btn btn-default btn-next" alt="Next video" src="img/Next.png" ng-click="nextOrPrev($event)">Next</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>c

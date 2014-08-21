@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'songData',
-    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData) {
+app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer', 'alertService', 'songData', '$filter',
+    function PlayerCtrl($scope, $window, $routeParams, strimsplayer, alertService, songData, $filter) {
         var videoPlayerId = 'video_player';
         $scope.songs = [];
         $scope.songData = songData.info = null;
@@ -134,36 +134,37 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                     for (var i = 0, len = data.length; i<len; i++) {
                         var domain = data[i].domain.split('.')[0];
                         if (domain.indexOf('youtu') != -1)
-                            domain = 'youtube'
-                        var tmp = {
-                            type: 'video/' + domain,
-                            src: data[i].domain_url,
-                            techOrder: [domain],
-                            title: data[i].title
-                        };
+                            domain = 'youtube';
+                        // vartmp = {
+                            data[i].type = 'video/' + domain;
+                            data[i].src =  data[i].domain_url;
+                            data[i].techOrder =  [domain];
+                        // };
                         if (domain == 'soundcloud') {
                             tmp.type = 'audio/soundcloud';
                             tmp.soundcloudClientId = '6132bb5a168d685a9bb97f4efc5f8e18';
                         }
-                        result.push(tmp);
+                        // result.push(tmp);
                         data[i].strim = {
                             id: data[i].strim,
                             slug:  (data[i].strims_url.split('/')[2]).toLowerCase(),
                             name:  (data[i].strims_url.split('/')[2])
                         };
-                }
-                return result;
-            };
+                    }
+                    return data;
+                };
+            songs = parseToPlay(songs);
+
             //$scope.
             songData.info = songData.info || songs[0];
             if (after == 0) { //first run of funciton,
-                $scope.songs = songs;
                 if ($scope.player) {
                     // $scope.player.dispose();
                      // delete $scope.player;
                 }
                 // $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
-                $scope.player.playList(parseToPlay(songs));
+                $scope.songs = songs;
+                $scope.player.playList(songs);
             } else {
                 if (songs.length == 0 ) {
                     $scope.thereAreMoreSongs = false;
@@ -171,14 +172,14 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 }
                 for (var i = 0; i < songs.length; i++)
                     $scope.songs.push(songs[i]);
-                $scope.player.addVideosEx(parseToPlay(songs));
+                $scope.player.addVideosEx(songs);
             }
 
             //$scope.saveApply($scope.songData);
             $scope.saveApply(songData.info);
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
-            $scope.saveApply($scope.player)
+            $scope.saveApply($scope.player);
 
          });
     };
@@ -206,6 +207,16 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
             $scope.findSongs(null);
         }
     };
+    var orderBy = $filter('orderBy');
+    $scope.order = function(predicate, reverse) {
+        $scope.songs = orderBy($scope.songs, predicate, reverse);
+        $scope.player.sort(orderBy, predicate, reverse);
+        $scope.saveApply($scope.songs);
+        $scope.saveApply($scope.player);
+
+    };
+    $scope.reverse = false;
+    // $scope.order('+date', false);
 
 }]);
 
