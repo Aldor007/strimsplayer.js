@@ -16,9 +16,16 @@
                     </div>
                     <div class="button-holder row">
                     Sortowanie po: 
-                        <a href="" ng-click="order('-upvotes', reverse=!reverse)">^</a>Upvotes</th>
-                        <a href="" ng-click="order('-title', reverse=!reverse)">^</a>Alfabetycznie</th>
-                        <a href="" ng-click="order('-date',reverse=!reverse)">^</a>Datcie</th>
+                        <a class="btn btn-default btn-sort" ng-click="order('-upvotes', reverse.upvotes=!reverse.upvotes)">
+                            Upvotach
+                            <span class="glyphicon" ng-class="reverse.upvotes ? 'glyphicon-sort-by-attributes': 'glyphicon-sort-by-attribute-alt'"></span>
+                        </a>
+                        <a class="btn btn-default btn-sort" ng-click="order('-title', reverse.title=!reverse.title)">Tytule
+                            <span class="glyphicon" ng-class="reverse.title ? 'glyphicon-sort-by-alphabet-alt': 'glyphicon-sort-by-alphabet-alt'"></span>
+                        </a>
+                        <a class="btn btn-default btn-sort" ng-click="order('-date',reverse.date=!reverse.date)">Dacie
+                            <span class="glyphicon" ng-class="reverse.date ? 'glyphicon-sort-by-attributes': 'glyphicon-sort-by-attributes-alt'"></span>
+                        </a>
 
                     </div>
                     <div class="button-holder row">
@@ -27,4 +34,4 @@
                     </div>
                 </div>
             </div>
-        </div>c
+        </div>

@@ -215,7 +215,11 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         $scope.saveApply($scope.player);
 
     };
-    $scope.reverse = false;
+    $scope.reverse = {
+        upvotes: false,
+        title: false,
+        date: false
+    };
     // $scope.order('+date', false);
 
 }]);
