@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="app" lang="pl-PL">
 <head>
 <meta charset="utf-8">
 <title>{% block title %}strimsplayer.pl{% endblock %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Aldor">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="keywords" content="strims, strimsplayer, player, muzyka, youtube"/>
+<meta name="description" content="Player muzyki ze strims.pl" />
+
+<meta name="author" content="Aldor"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!--STYLES-->
-<link rel="stylesheet" href="/min/production.min.css">
+<link rel="stylesheet" href="/styles/importer.css">
+<link rel="stylesheet" href="/styles/video-js.css">
 <!--STYLES END-->
 {% block stylesheet %}{% endblock %}
 {% block extra_head %}{% endblock %}
-
+ <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -45,27 +51,27 @@
                             strimsplayer.pl
                         </a>
                         <li class="dropdown">
-                            <a role="button" class="dropdown-toggle">
+                            <a role="button" class="dropdown-toggle" alt="Strimy">
                                 Strims <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" roles="menu">
                                 <li ng-repeat="choice in strims">
-                                        <a href="/#s/[[choice.slug]]">[[ choice.name ]] </a>
+                                        <a href="/#s/[[choice.slug]]" alt="[[choice.name]]">[[ choice.name ]] </a>
                                   </li>
                             </ul>
                         </li>
-                        <li><a href="/dodaj/strim">Dodaj strim</a></li>
+                        <li><a href="/dodaj/strim" alt="Dodaj strim">Dodaj strim</a></li>
                     </ul>
                 </nav>
                 <nav class="visible-xs" collapse="!isCollapsed">
                     <ul class="nav navbar-nav navbar-collapse" collapse="!isCollapsed">
                         <li class="dropdown" >
-                            <a role="button" class="dropdown-toggle">
+                            <a role="button" class="dropdown-toggle" alt="Strimy">
                                 Strims <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" roles="menu">
                                 <li ng-repeat="choice in strims">
-                                    <a href="/#s/[[choice.slug]]">[[ choice.name ]] </a>
+                                    <a href="/#s/[[choice.slug]]" alt="[[choice.name]]">[[ choice.name ]] </a>
                                 </li>
                             </ul>
                         </li>
@@ -101,9 +107,9 @@
                 <h3 class="songtitle">[[songData.info.title]]</h3>
                 <div class="content_inner">
                     <span class="date" title="[[songData.info.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
-                    <span class="user"><a href="http://strims.pl/u/[[songData.info.user]]">@[[songData.info.user]]</a></span>
+                    <span class="user"><a href="http://strims.pl/u/[[songData.info.user]]" alt="[[songData,info.user">@[[songData.info.user]]</a></span>
                     <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.info.strim.slug]]">[[songData.info.strim.name]]</a>.</span>
-                    <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]">Zobacz na strimsie </a></span>
+                    <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]" alt="Zobacz na strims.pl">Zobacz na strimsie </a></span>
                  </div>
 
              </div>
@@ -123,7 +129,21 @@
 
 
 <!--SCRIPTS-->
-<script src="/min/production.min.js"></script>
+<script src="/js/dependencies/aaajquery-1.11.1.min.js"></script>
+<script src="/js/dependencies/angular/angular.min.js"></script>
+<script src="/js/dependencies/angular/zangular-route.min.js"></script>
+<script src="/js/dependencies/angular/zzng-infinite-scroll.min.js"></script>
+<script src="/js/dependencies/ui-bootstrap.min.js"></script>
+<script src="/js/dependencies/videojs/uri.min.js"></script>
+<script src="/js/dependencies/videojs/video.dev.js"></script>
+<script src="/js/dependencies/videojs/videojs-playlists.js"></script>
+<script src="/js/dependencies/videojs/vjs.soundcloud.js"></script>
+<script src="/js/dependencies/videojs/vjs.vimeo.js"></script>
+<script src="/js/dependencies/videojs/youtube.js"></script>
+<script src="/js/dependencies/zzui-bootstrap-tpls.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/controllers.js"></script>
+<script src="/js/services.js"></script>
 <!--SCRIPTS END-->
 {% block javascript %}{% endblock %}
 

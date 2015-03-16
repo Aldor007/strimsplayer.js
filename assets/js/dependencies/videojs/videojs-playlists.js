@@ -46,7 +46,7 @@ function playList(options,arg){
     if (typeof videos[i].src === 'string') {
 
           videos[i].src = {
-              type : player.pl._guessVideoType(null, videos[i]),
+              type : player.pl._guessVideoType(videos[i].src, videos[i]),
               src : videos[i].src
           };
           player.pl.videos.push(videos[i]);
@@ -124,6 +124,9 @@ function playList(options,arg){
       }
   };
 
+  player.pl._sort = function(fun, predicate, reverse) {
+    player.pl.videos = fun(player.pl.videos, predicate, reverse);
+  };
   if (options instanceof Array){
     player.pl.init(options, arg);
     player.pl._setVideo(0);
@@ -153,6 +156,10 @@ videojs.Player.prototype.clearEvents = function () {
 };
 videojs.Player.prototype.addVideosEx = function(videos) {
     this.pl._addVideos(videos);
+};
+videojs.Player.prototype.sort = function(fun, predicate, reverse) {
+    this.pl._sort(fun, predicate, reverse);
+
 };
 videojs.Player.prototype.removeVideo = function(index) {
     this.pl._removeVideo(index);
