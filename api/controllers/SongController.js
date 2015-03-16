@@ -52,7 +52,7 @@ module.exports = {
      *      80s: [ { title: 2}]
      *  }
      *  returns object containg count of added and not added songs
-     * */ 
+     * */
     addArray: function(req, res) {
         var reqParam = req.param('songs');
         if (!reqParam) {
@@ -79,7 +79,7 @@ module.exports = {
                     if (strimErr || !strim) {
                         res.json( {message: 'Strim not found!'}, 404);
                         return;
-                    } 
+                    }
                     var songsArray = songs[strimName];
                     result[strimName] = {added: 0, error: 0, incorectDomain: 0};
                     for (var j = 0, songsLen = songsArray.length; j < songsLen; j++) {
@@ -116,9 +116,9 @@ module.exports = {
                                     }
                                 }
                             })(j);
-                        
+
                     }
-                    
+
                 });
             })(strims[i], i);
         }
@@ -151,7 +151,7 @@ module.exports = {
                         } else {
                             res.json(songs);
                         }
-        
+
             });
         } else {
             var findQuery;
@@ -205,11 +205,11 @@ module.exports = {
                         });
                     }
                 });
-                
-                
+
+
             });
-        
-        
+
+
         }
     }
 };

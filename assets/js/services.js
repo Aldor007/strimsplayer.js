@@ -53,7 +53,7 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
                                 maxId = response[i].id;
                         that.after = maxId;
                    }
-                    callback(null, response, tmpAfter);
+                    callback(null, response, that.after);
 
                 }).error(function(error) {
                     if (error.message) {
