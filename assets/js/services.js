@@ -44,14 +44,8 @@ app.service('strimsplayer', ['$http', '$cacheFactory',
                     "X-CSRF-Token": csrfToken
                 };
                $http(httpOptions).success(function(response) {
-                   var tmpAfter = that.after;
                    if (options.paginate && response.length > 0) {
-                       var maxId = 0;
-                       var len = response.length;
-                       for (var i= 0;  i <len; i++)
-                            if (response[i].id > maxId)
-                                maxId = response[i].id;
-                        that.after = maxId;
+                        that.after = response[response.length - 1].id;
                    }
                     callback(null, response, that.after);
 

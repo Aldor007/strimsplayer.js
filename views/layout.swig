@@ -51,27 +51,27 @@
                             strimsplayer.pl
                         </a>
                         <li class="dropdown">
-                            <a role="button" class="dropdown-toggle" alt="Strimy">
+                            <a role="button" class="dropdown-toggle">
                                 Strims <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" roles="menu">
                                 <li ng-repeat="choice in strims">
-                                        <a href="/#s/[[choice.slug]]" alt="[[choice.name]]">[[ choice.name ]] </a>
+                                        <a href="/#s/[[choice.slug]]">[[ choice.name ]] </a>
                                   </li>
                             </ul>
                         </li>
-                        <li><a href="/dodaj/strim" alt="Dodaj strim">Dodaj strim</a></li>
+                        <li><a href="/dodaj/strim">Dodaj strim</a></li>
                     </ul>
                 </nav>
                 <nav class="visible-xs" collapse="!isCollapsed">
                     <ul class="nav navbar-nav navbar-collapse" collapse="!isCollapsed">
                         <li class="dropdown" >
-                            <a role="button" class="dropdown-toggle" alt="Strimy">
+                            <a role="button" class="dropdown-toggle">
                                 Strims <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" roles="menu">
                                 <li ng-repeat="choice in strims">
-                                    <a href="/#s/[[choice.slug]]" alt="[[choice.name]]">[[ choice.name ]] </a>
+                                    <a href="/#s/[[choice.slug]]">[[ choice.name ]] </a>
                                 </li>
                             </ul>
                         </li>
@@ -107,9 +107,9 @@
                 <h3 class="songtitle">[[songData.info.title]]</h3>
                 <div class="content_inner">
                     <span class="date" title="[[songData.info.date| date:'d.MM.yyyy H:mm']]">Dodane  [[songData.info.date| date:'d.MM.yyyy']]</span> przez
-                    <span class="user"><a href="http://strims.pl/u/[[songData.info.user]]" alt="[[songData,info.user">@[[songData.info.user]]</a></span>
+                    <span class="user"><a href="http://strims.pl/u/[[songData.info.user]]">@[[songData.info.user]]</a></span>
                     <span class="strimname">do strimu: <a href="http://strims.pl/s/[[songData.info.strim.slug]]">[[songData.info.strim.name]]</a>.</span>
-                    <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]" alt="Zobacz na strims.pl">Zobacz na strimsie </a></span>
+                    <span class="strimlink"><a href="http://strims.pl[[songData.info.strims_url]]">Zobacz na strimsie </a></span>
                  </div>
 
              </div>

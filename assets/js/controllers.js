@@ -133,49 +133,55 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                     var result = []
                     for (var i = 0, len = data.length; i<len; i++) {
                         var domain = data[i].domain.split('.')[0];
-                        if (domain.indexOf('youtu') != -1)
+                        if (domain.indexOf('youtu') != -1)  {
                             domain = 'youtube';
-                        // vartmp = {
-                            data[i].type = 'video/' + domain;
-                            data[i].src =  data[i].domain_url;
-                            data[i].techOrder =  [domain];
-                        // };
+                        }
+                        var tmp = {
+                            type: 'video/' + domain,
+                            src: data[i].domain_url,
+                            techOrder: [domain],
+                            title: data[i].title
+                        };
+
                         if (domain == 'soundcloud') {
                             tmp.type = 'audio/soundcloud';
                             tmp.soundcloudClientId = '6132bb5a168d685a9bb97f4efc5f8e18';
                         }
-                        // result.push(tmp);
-                        data[i].strim = {
+                        tmp.strim = {
                             id: data[i].strim,
                             slug:  (data[i].strims_url.split('/')[2]).toLowerCase(),
                             name:  (data[i].strims_url.split('/')[2])
                         };
+                        result.push(tmp);
                     }
-                    return data;
+                    return result;
                 };
+
+            if (songs.length == 0 ) {
+                $scope.thereAreMoreSongs = false;
+                return;
+            }
             songs = parseToPlay(songs);
 
-            //$scope.
             songData.info = songData.info || songs[0];
-            if (after == 0) { //first run of funciton,
-                if ($scope.player) {
-                    // $scope.player.dispose();
-                     // delete $scope.player;
-                }
-                // $scope.player = videojs('video_player', {'techOrder': ['youtube', 'soundcloud','vimeo' ], 'autoplay': false,  'src': 'https://www.youtube.com/watch?v=eY49xEQGqMw'});
-                $scope.songs = songs;
-                $scope.player.playList(songs);
+
+            if (!$scope.player.inited) { 
+               $scope.player.playList(songs);
+               $scope.player.inited = true;
+               $scope.songs = songs;
+
+
             } else {
-                if (songs.length == 0 ) {
-                    $scope.thereAreMoreSongs = false;
-                    return;
-                }
-                for (var i = 0; i < songs.length; i++)
+
+
+                for (var i = 0; i < songs.length; i++) {
                     $scope.songs.push(songs[i]);
+                }
+
                 $scope.player.addVideosEx(songs);
+
             }
 
-            //$scope.saveApply($scope.songData);
             $scope.saveApply(songData.info);
             $scope.saveApply($scope.strimName);
             $scope.saveApply($scope.songs);
@@ -191,6 +197,7 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
                 strimsplayer.after = 0;
                 $scope.player.clearEvents();
                 $scope.thereAreMoreSongs = true;
+                $scope.player.inited = false;
                 alertService.reset();
                 $scope.findSongs($scope.strimName);
             }
@@ -220,7 +227,6 @@ app.controller('PlayerCtrl', ['$scope', '$window', '$routeParams', 'strimsplayer
         title: false,
         date: false
     };
-    // $scope.order('+date', false);
 
 }]);
 
@@ -237,7 +243,6 @@ app.controller('DropdownCtrl', ['$scope',  'strimsplayer', 'alertService',
         $scope.strims = strimsMenuData;
         saveApply($scope, $scope.strims);
     });
-    // $scope.isCollapsed = false;
     $scope.status = {
         isopen: false
     };
