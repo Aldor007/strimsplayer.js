@@ -9,7 +9,7 @@ Module | Status
 **Strims** | [strims.pl/s/strimsplayer](http://strims.pl/s/strimsplayer)
 ---
 
-[![Build Status](http://j.marcinkaciuba.pl/buildStatus/icon?job=strimsplayer.js)](http://j.marcinkaciuba.pl/job/strimsplayer.js/)
+[![Build Status](https://travis-ci.org/Aldor007/strimsplayer.js.svg?branch=master)](https://travis-ci.org/Aldor007/strimsplayer.js)
 
 # Instalacja zależności
 ```bash
