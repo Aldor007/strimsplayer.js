@@ -1,0 +1,14 @@
+anguage: node_js
+node_js:
+    - "0.12"
+    - "0.11"
+    - "0.10"
+    - "iojs"
+    - "iojs-v1.0.4"
+install:
+    - sudo apt-get update
+    - npm install
+    - sudo npm install -g istanbul
+script:
+    - jasmine-node --verbose tests
+
