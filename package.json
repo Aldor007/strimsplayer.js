@@ -24,7 +24,7 @@
     "passport": "~0.1.18",
     "passport-local": "~0.1.6",
     "rc": "~0.3.3",
-    "sails": "~0.10.0",
+    "sails": "~1.2.4",
     "sails-disk": "~0.10.0",
     "swig": ">1.0.2",
     "unirest": "0.2.7",
