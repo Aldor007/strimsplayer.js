@@ -20,7 +20,7 @@
     "grunt-sails-linker": "~0.9.5",
     "grunt-sync": "~0.0.4",
     "include-all": "^0.1.6",
-    "moment": "2.7.0",
+    "moment": "2.24.0",
     "passport": "~0.1.18",
     "passport-local": "~0.1.6",
     "rc": "~0.3.3",
